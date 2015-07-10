@@ -19,7 +19,7 @@
 }
 
 /* local style for buttons on the homepage*/
-.trans-button {
+.home-button {
 	font-size: 2em;
 	font-weight: bold;
 	background: linear-gradient(#EDEDEE, #A7A9AC);
@@ -27,6 +27,12 @@
 
 button.showinfo {
 	float: right;
+	right: 0px;
+	top: 9px;
+	position: absolute;
+	text-align: right;
+	border: none;
+	box-shadow: none;
 }
 
 .headertitle {
@@ -38,18 +44,28 @@ button.showinfo {
 	text-indent: 50px;
 }
 
-h1 {
+.item h1 {
 	font-size: 1.5em;
+	color: #004990;
+}
+
+.item h2 {
+	font-size: 1.3em;
 	color: #004990;
 }
 
 img.whatwedo {
 	float: right;
 	width: 100%;
-	max-width: 65%;
+	max-width: 58%;
 }
 img.ataglance {
 	width: 100%;
+	padding: 2.5%;
+}
+
+.nobdr {
+	border: none;
 }
 
 /*

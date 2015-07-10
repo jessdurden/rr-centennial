@@ -23,10 +23,14 @@ THIS IS WHERE VARIABLES FROM "LIB/IONIC/SCSS/_VARIABLES.SCSS" ARE CHANGED.
 THEY CAN NOT BE CHANGED IN THE ACTUAL FILE OR UPDATES TO IONIC WILL OVERWRITE THEM
 */
 
-$positive:                        #004990 !default;  				//primary navy for header bar
-$stable:                          #B8BABC !default;					//primary silver for buttons transparent
+$positive:                        #004990 !default;  				// primary navy for header bar
+$stable:                          #B8BABC !default;					// primary silver for buttons transparent
 $dark:                            #768D99 !default;  				// help
-$base-background-color:           #fff !default;  					//base background color for the entire app
+$base-background-color:           #fff !default;  					// base background color for the entire app
+$light:							  rgba(255,255,255,0) !default;			// transparent background for transparent buttons
+$button-light-active-bg:          rgba(255,255,255,0) !default;			// Makes the light button transparent when selected
+$button-light-text:               #004990 !default;					// changes the color of transparant button text to RR blue
+
 
 
 $font-family-sans-serif:          "TheMix Classic", sans-serif !default;
