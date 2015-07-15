@@ -1,6 +1,6 @@
 <ion-view title="about">
-
-  <ion-header-bar class="bar-positive">
+	<!-- check www/templates/home.html for a explanation on .html templates -->
+  <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
 		<h1 class="headertitle"><b>About</b></h1>
 		<img src="img/logont.png" id="rrlogo" ui-sref="home"></img>
 		<img src="img/centlogont.png" id="centlogo"></img>
@@ -22,10 +22,18 @@
 	
 	<div class="card">
 		<div class="item item-text-wrap">
+			<!-- This is the ionic card thata contains the show/hide button for the RR infographic
+				the ng-show and ng-hide and ng-click functions are angular functions used to tell the
+				app when to show and hide each element. The class of showinfo is there so that in the 
+				www/css/style.css file we can set specific styling with a button.showinfo call.  -->
 			<h1>At a glance 2015</h1>
+			<!-- In this case "show" is a state that can be either true or false. 
+			The ng-show="show" and ng-hide="show" lines are checking the state of "show" and applying themselves accordingly. 
+			The ng-click function is telling the button that when clicked it should change the state of "show" to either true or false.-->
 			<button class="button icon-right ion-chevron-up button-full button-light showinfo" ng-show="show" ng-click="show=false">Hide</button>
 			<button class="button icon-right ion-chevron-down button-full button-light showinfo" ng-hide="show" ng-click="show=true">Show</button>
 			<img src="img/about/ataglance.png" class="ataglance" ng-show="show">
+			
 		</div>
 	</div>
 	
@@ -46,6 +54,7 @@
 			and our commitment to excellence allows us to seize the opportunities that change 
 			presents and to face the future with confidence.</p>
 			<h2>Values</h2>
+			
 			<h2>Strategy</h2>
 		</div>
 	</div>

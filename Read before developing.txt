@@ -1,0 +1,33 @@
+These are the files and the function of each that are used whilst making the app.
+
+1.	index.html
+	a.	location: todo\www\index.html
+	b.	function: holds the links to stylesheets that will be applied and code libraries that will be used
+	c.	notes: not a whole lot if anything will be added to this file.
+2.	app.js
+	a.	location: todo\www\js\app.js
+	b.	function: holds all of the javascripting for the app.
+	c.	Notes: contains the StateProvider function that controls how the app navigates between pages. More javascript will be added here to control the importing of data from the database of rolls-royce info.
+
+3.	home.html
+	a.	location: todo\www\templates\home.html
+	b.	function: contains the code for what is seen when an app page is loaded.
+	c.	Notes: all the other .html files stored in todo\www\templates will need to be edited as well. Furthermore, as more pages are added to the app more .html files will be added to the templates folder.
+
+4.	style.css
+	a.	location: todo\www\css\style.css
+	b.	function: contains the local css stylesheet for the app. Changes here will not be overridden by updates to the ionic framework.
+	c.	Notes: assigning ids or classes to html elements allows them to be called by name and changed here
+
+5.	ionic.app.scss
+	a.	location: todo\scss\ionic.app.scss
+	b.	function: location where you are allowed to override the ionic default variables.
+	c.	Notes: variables stored in www\lib\ionic\scss\_variables.scss are global ionic variables. This file allows you to overwrite them to customize your app while maintaining the functionality of ionic specific html elements
+
+6.	_variables (DO NOT EDIT)
+	a.	location: www\lib\ionic\scss\_variables
+	b.	function: this file stores the scss variables specific to ionic. 
+	c.	Notes: NO  PERMANENT CHANGES SHOULD BE MADE HERE. Any time ionic is updated and the app is run this file will be overwritten with new values. Changes should always be made in the todo\scss\ionic.app.scss file. This file can be used to find ionic variables and see what changing them causes.
+
+7.	Other Files:
+	a.	Other files in the www/lib folder may be of use to find ionic values that you wish to change however they should never be locally changed. Always utilize the style.css and ionic.app.scss files for app specific changes.
