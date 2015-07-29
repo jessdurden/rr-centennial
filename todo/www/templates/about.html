@@ -58,5 +58,21 @@
 			<h2>Strategy</h2>
 		</div>
 	</div>
+	
+	<div class="card">
+		<div class="item item-text-wrap">
+					<div ui-sref="strategy"><h1>Strategy<h1></button>
+		</div>
+	</div>
+	
+	<div class="card">
+	<ion-list>
+		<ion-item class="item item-text-wrap" ng-repeat="recordedevent in recordedevents">  <!-- this comes from what is after $Scope. in the aboutController -->
+			<h1>{{recordedevent.EvntID}}</h1>
+			<p>Everybody get in here {{recordedevent.EvntDscpt}} </p>
+		</ion-item>
+	</ion-list>
+	</div>
+	
   </ion-content>
 </ion-view>
