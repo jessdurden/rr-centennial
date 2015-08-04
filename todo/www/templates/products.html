@@ -5,9 +5,11 @@
 		<img src="img/logont.png" id="rrlogo" ui-sref="home"></img>
 		<img src="img/centlogont.png" id="centlogo"></img>
 	</ion-header-bar>
-  <ion-content padding="true">
+  <ion-content>
 	<div class="item item-text-wrap" ng-repeat="product in products">
 		<h2>{{product.ProductName}}</h2>
+		<p> Description: {{product.ProductDsptn}}<br>potato?
+		</p>
     </div>
   </ion-content>
 </ion-view>

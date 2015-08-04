@@ -54,7 +54,8 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 	})
 	.state('timeline', {
 		url: '/timeline',
-		templateUrl: 'templates/timeline.html'
+		templateUrl: 'templates/timeline.html',
+		controller: 'timelineController'
 	})
 	.state('productlist', {
 		url: '/productlist',
@@ -66,13 +67,25 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 		templateUrl: 'templates/products.html',
 		controller: 'productsController'
 	})
+	.state('platformlist', {
+		url: '/platformlist',
+		templateUrl: 'templates/platformlist.html',
+		controller: 'platformlistController'
+	})	
 	.state('platforms', {
-		url: '/platforms',
-		templateUrl: 'templates/platforms.html'
+		url: '/platforms/:platID',
+		templateUrl: 'templates/platforms.html',
+		controller: 'platformController'
+	})
+	.state('customerlist', {
+		url: '/customerlist',
+		templateUrl: 'templates/customerlist.html',
+		controller: 'customerlistController'
 	})
 	.state('customers', {
-		url: '/customers',
-		templateUrl: 'templates/customers.html'
+		url: '/customers/:custID',
+		templateUrl: 'templates/customers.html',
+		controller: 'customerController'
 	})
 	.state('strategy', {
 		url: '/strategy',
@@ -90,7 +103,7 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 ionicApp.controller("homeController", function($scope, $ionicPlatform, $ionicLoading, $location, $ionicHistory, $cordovaSQLite) {
 	$ionicHistory.nextViewOptions({
 		disableAnimate: true,
-		disableBack: true
+		
 	});
 	$ionicPlatform.ready(function() {
 		$ionicLoading.show({ template: 'Loading... ' });
@@ -114,12 +127,31 @@ ionicApp.controller("aboutController", function($scope, $ionicPlatform, $cordova
 	$scope.recordedevents = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT EvntID, EvntDscpt FROM RecordedEvents";
+		var query = "SELECT EvntID, EvntDsptn FROM RecordedEvents";
 	
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.recordedevents.push({EvntID: res.rows.item(i).EvntID, EvntDscpt: res.rows.item(i).EvntDscpt});
+					$scope.recordedevents.push({EvntID: res.rows.item(i).EvntID, EvntDsptn: res.rows.item(i).EvntDsptn});
+				}
+			}
+		}, function(err) {
+			console.error(err);
+		});
+	});
+	
+});
+
+ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cordovaSQLite) {
+	$scope.recordedeventstl = [];
+	
+	$ionicPlatform.ready(function() {
+		var query = "SELECT EvntID, EvntDsptn FROM RecordedEvents";
+	
+		$cordovaSQLite.execute(db, query, []).then(function(res) {
+			if(res.rows.length > 0) {
+				for(var i = 0; i < res.rows.length; i++) {
+					$scope.recordedeventstl.push({EvntID: res.rows.item(i).EvntID, EvntDsptn: res.rows.item(i).EvntDsptn});
 				}
 			}
 		}, function(err) {
@@ -151,12 +183,84 @@ ionicApp.controller("productsController", function($scope, $ionicPlatform, $cord
 	$scope.products = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT ProductID, ProductName FROM Products where ProductID = ?";
+		var query = "SELECT ProductID, ProductName, ProductDsptn, ProductImgLnk, ProductQckFct, ProductSpecs FROM Products where ProductID = ?";
 	
 		$cordovaSQLite.execute(db, query, [$stateParams.prodID]).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.products.push({ProductID: res.rows.item(i).ProductID, ProductName: res.rows.item(i).ProductName});
+					$scope.products.push({ProductID: res.rows.item(i).ProductID, ProductName: res.rows.item(i).ProductName, ProductDsptn: res.rows.item(i).ProductDsptn, ProductImgLnk: res.rows.item(i).ProductImgLnk, ProductQckFct: res.rows.item(i).ProductQckFct, ProductSpecs: res.rows.item(i).ProductSpecs});
+				}
+			}
+		}, function(err) {
+			console.error(err);
+		});
+	});
+});
+
+ionicApp.controller("platformlistController", function($scope, $ionicPlatform, $cordovaSQLite) {
+	$scope.platformlist = [];
+	
+	$ionicPlatform.ready(function() {
+		var query = "SELECT PlatformID, PlatformName FROM Platforms";
+	
+		$cordovaSQLite.execute(db, query, []).then(function(res) {
+			if(res.rows.length > 0) {
+				for(var i = 0; i < res.rows.length; i++) {
+					$scope.platformlist.push({PlatformID: res.rows.item(i).PlatformID, PlatformName: res.rows.item(i).PlatformName});
+				}
+			}
+		}, function(err) {
+			console.error(err);
+		});
+	});
+});
+
+ionicApp.controller("platformController", function($scope, $ionicPlatform, $cordovaSQLite, $stateParams) {
+	$scope.platforms = [];
+	
+	$ionicPlatform.ready(function() {
+		var query = "SELECT PlatformID, PlatformName, PlatformDsptn, PlatformImgLnk FROM Platforms where PlatformID = ?";
+	
+		$cordovaSQLite.execute(db, query, [$stateParams.platID]).then(function(res) {
+			if(res.rows.length > 0) {
+				for(var i = 0; i < res.rows.length; i++) {
+					$scope.platforms.push({PlatformID: res.rows.item(i).PlatformID, PlatformName: res.rows.item(i).PlatformName, PlatformDsptn: res.rows.item(i).PlatformDsptn, PlatformImgLnk: res.rows.item(i).PlatformImgLnk});
+				}
+			}
+		}, function(err) {
+			console.error(err);
+		});
+	});
+});
+
+ionicApp.controller("customerlistController", function($scope, $ionicPlatform, $cordovaSQLite) {
+	$scope.customerlist = [];
+	
+	$ionicPlatform.ready(function() {
+		var query = "SELECT CustomerID, CustomerName FROM Customers";
+	
+		$cordovaSQLite.execute(db, query, []).then(function(res) {
+			if(res.rows.length > 0) {
+				for(var i = 0; i < res.rows.length; i++) {
+					$scope.customerlist.push({CustomerID: res.rows.item(i).CustomerID, CustomerName: res.rows.item(i).CustomerName});
+				}
+			}
+		}, function(err) {
+			console.error(err);
+		});
+	});
+});
+
+ionicApp.controller("customerController", function($scope, $ionicPlatform, $cordovaSQLite, $stateParams) {
+	$scope.customers = [];
+	
+	$ionicPlatform.ready(function() {
+		var query = "SELECT CustomerID, CustomerName, CustomerDsptn, CustomerImgLnk FROM Customers where CustomerID = ?";
+	
+		$cordovaSQLite.execute(db, query, [$stateParams.custID]).then(function(res) {
+			if(res.rows.length > 0) {
+				for(var i = 0; i < res.rows.length; i++) {
+					$scope.customers.push({CustomerID: res.rows.item(i).CustomerID, CustomerName: res.rows.item(i).CustomerName, CustomerDsptn: res.rows.item(i).CustomerDsptn, CustomerImgLnk: res.rows.item(i).CustomerImgLnk});
 				}
 			}
 		}, function(err) {
@@ -171,11 +275,11 @@ ionicApp.controller("productsController", function($scope, $ionicPlatform, $cord
 ionicApp.controller("ExController", function($scope, $cordovaSQLite) {
 	
 	$scope.selectAll = function() {
-		var query = "SELECT EvntID, EvntDscpt FROM RecordedEvents";
+		var query = "SELECT EvntID, EvntDsptn FROM RecordedEvents";
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					console.log("SELECTED -> " + res.rows.item(i).EvntID + " " + res.rows.item(i).EvntDscpt);
+					console.log("SELECTED -> " + res.rows.item(i).EvntID + " " + res.rows.item(i).EvntDsptn);
 				}
 			} else {
 				console.log("No results found");
