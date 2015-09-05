@@ -62,6 +62,10 @@ button.showinfo {
 	color: #004990;
 }
 
+.largefont {
+	font-size: 2.5em;
+}
+
 img.whatwedo {
 	float: right;
 	width: 100%; 
