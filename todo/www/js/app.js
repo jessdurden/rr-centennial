@@ -146,17 +146,100 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 	$scope.recordedeventstl = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT EvntID, EvntDsptn FROM RecordedEvents";
-	
+		
+		var timebox = document.getElementById("timelinebox");
+		/*document.getElementById("testnum").innerHTML = timebox.clientHeight;*/
+		var c=document.getElementById("timeline");
+		var BaseHeight = timebox.clientHeight;
+		/*var datebox=document.getElementById("DateBox");
+		var dateWidth = datebox.clientWidth;*/
+		var sizeAdjust = 10;
+		var BaseLength = BaseHeight*sizeAdjust+(BaseHeight/sizeAdjust);
+		c.height = BaseHeight;
+		c.width = BaseLength;
+		var ctx=c.getContext("2d");
+		ctx.beginPath();
+		ctx.moveTo(0,BaseHeight/2);
+		ctx.lineTo(BaseLength,BaseHeight/2);
+		ctx.stroke();
+		for(i = 0; i <= (BaseLength-(BaseHeight/sizeAdjust)); i += (BaseHeight/sizeAdjust)){
+ 			ctx.beginPath();
+ 			ctx.moveTo((BaseHeight/2/sizeAdjust)+i,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
+ 			ctx.lineTo((BaseHeight/2/sizeAdjust)+i,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
+ 			ctx.stroke();
+ 			}
+ 		var offsetDate = (BaseHeight/2/sizeAdjust);
+ 		var slopeDate = (BaseHeight/sizeAdjust);
+ 			$scope.dates = [];
+ 			var datesArray = [];
+ 			for (i = 0; i <= 100; i++) {
+ 				var backendDate =1915 + i;
+ 				var UpVal = slopeDate*i + offsetDate;
+ 				var UpString = UpVal.toString();
+ 				UpString = UpString+'px';
+ 				var backendString = backendDate.toString();
+				var UpValY = (BaseHeight/2)+2*(BaseHeight/10/sizeAdjust);
+				var UpStringY = UpValY.toString();
+				UpStringY = UpStringY+'px';
+    				datesArray[i] = {
+      					text: backendString,
+      					xloc: UpString,
+      					yloc: UpStringY,
+      					position: 'absolute'
+    					};
+    			}
+		    	$scope.dates=datesArray;
+		/*var query = "SELECT EvntID, EvntDsptn, StampedYear FROM RecordedEvents";*/
+		var query = "SELECT * FROM RecordedEvents,Timestamps WHERE RecordedEvents.TimestampID = Timestamps.TimestampID AND RecordedEvents.TimestampID = 1";
+		
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.recordedeventstl.push({EvntID: res.rows.item(i).EvntID, EvntDsptn: res.rows.item(i).EvntDsptn});
+					/*$scope.recordedeventstl.push({EvntID: res.rows.item(i).EvntID, EvntDsptn: res.rows.item(i).EvntDsptn, StampedYear: res.rows.item(i).StampedYear});*/
+					
+					
+
+    			var year = res.rows.item(i).StampedYear;
+    			var title = res.rows.item(i).EventTitle;
+    			var titleString = title.toString();
+    			/*$scope.events = [];
+ 			var eventsArray = [];
+ 			for (i = 0; i <= 0; i++) {*/
+ 				var Locator = year - 1915;
+ 				var LocatorVal = slopeDate*Locator + offsetDate;
+ 				var LocatorString = LocatorVal.toString();
+ 				LocatorString = LocatorString + 'px';
+ 				var backendString = backendDate.toString();
+				var boxValY = (BaseHeight/2)-2*slopeDate;
+				var boxStringY = boxValY.toString();
+				boxStringY = boxStringY+'px';
+				var widthVal = 15*slopeDate;
+				var widthString = widthVal.toString();
+				widthString = widthString+'px';
+    				//eventsArray[i] = 
+    				$scope.recordedeventstl.push({
+      					text: titleString,
+      					xloc: LocatorString,
+      					yloc: boxStringY,
+      					boxWidth: widthString,
+      					position: 'absolute'
+    					});
+    			//}
+    			//$scope.events=eventsArray;
+					
+					
+					
 				}
 			}
 		}, function(err) {
 			console.error(err);
 		});
+		
+		
+		
+
+	
+		
 	});
 	
 });
