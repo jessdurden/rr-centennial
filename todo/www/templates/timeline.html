@@ -6,7 +6,7 @@
 		<img src="img/centlogont.png" id="centlogo"></img>
 	</ion-header-bar>
   <ion-content id="timelinebox" padding="False" class="has-header">
-  	<ion-scroll id="timelinewindow" zooming="false" direction="x" scrollbar-x="false" has-bouncing="false">
+  	<ion-scroll id="timelinewindow" zooming="false" direction="x" scrollbar-x="false"  scrollbar-y="false" has-bouncing="false">
   	<canvas id="timeline">
           </canvas>
         	<!--div style="width: 5000px; height: 5000px">
@@ -23,9 +23,9 @@
         	{{ date.text }}
         	</div>
         	</div>
-        	<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}" style="word-wrap: break-word; text-align: center">
-        	<div style="position: relative; left: -50%; top: -50%; border: dotted red 1px;">
-        	<p>{{ event.text }}</p>
+        	<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}" style="border: dotted blue 1px">
+        	<div style="position: relative; left: -50%; top: -50%; border: dotted red 1px; word-wrap: break-word; text-align: center; background-color: white">
+        	{{ event.text }}
         	</div>
         	</div>
       	</ion-scroll>

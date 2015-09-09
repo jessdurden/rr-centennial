@@ -151,6 +151,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 		/*document.getElementById("testnum").innerHTML = timebox.clientHeight;*/
 		var c=document.getElementById("timeline");
 		var BaseHeight = timebox.clientHeight;
+		var BaseWidth = timebox.clientWidth;
 		/*var datebox=document.getElementById("DateBox");
 		var dateWidth = datebox.clientWidth;*/
 		var sizeAdjust = 10;
@@ -190,58 +191,74 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
     			}
 		    	$scope.dates=datesArray;
 		/*var query = "SELECT EvntID, EvntDsptn, StampedYear FROM RecordedEvents";*/
-		var query = "SELECT * FROM RecordedEvents,Timestamps WHERE RecordedEvents.TimestampID = Timestamps.TimestampID AND RecordedEvents.TimestampID = 1";
+		var query = "SELECT * FROM RecordedEvents,TimeStamps WHERE RecordedEvents.TimeStampID = TimeStamps.TimeStampID AND RecordedEvents.TimeStampID = 1";
 		
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
-				for(var i = 0; i < res.rows.length; i++) {
-					/*$scope.recordedeventstl.push({EvntID: res.rows.item(i).EvntID, EvntDsptn: res.rows.item(i).EvntDsptn, StampedYear: res.rows.item(i).StampedYear});*/
-					
-					
+				var FilledDate = Array(2);
+				FilledDate[0] = Array(100).fill(0);
+				FilledDate[1] = Array(100).fill(0);
+				var blockVal = Math.ceil(BaseWidth*0.9/slopeDate);
+				blockVal = blockVal.toString();
+				var topOrBottom = 0;
+				var count = 0;
+			for(var i = 0; i < res.rows.length; i++) {
+				
+    				var year = res.rows.item(i).StampedYear;
+    				var title = res.rows.item(i).EvntTitle;
 
-    			var year = res.rows.item(i).StampedYear;
-    			var title = res.rows.item(i).EventTitle;
-    			var titleString = title.toString();
-    			/*$scope.events = [];
- 			var eventsArray = [];
- 			for (i = 0; i <= 0; i++) {*/
  				var Locator = year - 1915;
+ 				var needCheck = blockVal*2;
+ 				for(var i = 0; i <= needCheck; i++) {
+ 					var checkVal = i + Locator - blockVal;
+ 					if(checkVal >= 0){
+ 						FilledDate[topOrBottom][checkVal] = FilledDate[topOrBottom][checkVal] + 1;
+ 					}
+ 				}
  				var LocatorVal = slopeDate*Locator + offsetDate;
  				var LocatorString = LocatorVal.toString();
  				LocatorString = LocatorString + 'px';
- 				var backendString = backendDate.toString();
-				var boxValY = (BaseHeight/2)-2*slopeDate;
+ 				if(topOrBottom == 0){
+    					var boxValY = (BaseHeight/2)-2*slopeDate*FilledDate[topOrBottom][Locator];
+    					ctx.beginPath();
+ 					ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
+ 					ctx.lineTo(LocatorVal,boxValY+5);
+ 					ctx.stroke();
+    					topOrBottom = 1;
+    					
+    				} else{
+    					var boxValY = (BaseHeight/2)+2*slopeDate*FilledDate[topOrBottom][Locator];
+    					ctx.beginPath();
+ 					ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
+ 					ctx.lineTo(LocatorVal,boxValY+5);
+ 					ctx.stroke();
+    					topOrBottom = 0;
+  				}
+				
 				var boxStringY = boxValY.toString();
 				boxStringY = boxStringY+'px';
-				var widthVal = 15*slopeDate;
+				var widthVal = BaseWidth*0.9;
 				var widthString = widthVal.toString();
 				widthString = widthString+'px';
-    				//eventsArray[i] = 
+				var heightVal = BaseWidth*0.45;
+				var heightString = heightVal.toString();
+				heightString = heightString+'px';
+				
+				//var printcount = FilledDate[0][checkVal].toString();
+				
     				$scope.recordedeventstl.push({
-      					text: titleString,
+      					text: title,
       					xloc: LocatorString,
       					yloc: boxStringY,
       					boxWidth: widthString,
       					position: 'absolute'
-    					});
-    			//}
-    			//$scope.events=eventsArray;
-					
-					
-					
+    					});								
 				}
 			}
 		}, function(err) {
 			console.error(err);
-		});
-		
-		
-		
-
-	
-		
-	});
-	
+		});		
+	});	
 });
 
 ionicApp.controller("productlistController", function($scope, $ionicPlatform, $cordovaSQLite) {
