@@ -1,7 +1,7 @@
 <ion-view title="timeline">
 	<!-- check www/templates/home.html for a explanation on .html templates -->
   <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
-  		<h1 class="headertitle"><b>Time Line</b></h1>
+  		<h1 class="headertitle"><b>Timeline</b></h1>
 		<img src="img/logont.png" id="rrlogo" ui-sref="home"></img>
 		<img src="img/centlogont.png" id="centlogo"></img>
 	</ion-header-bar>
@@ -25,7 +25,7 @@
         	</div>
         	<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}" style="border: dotted blue 1px">
         	<div style="position: relative; left: -50%; top: -50%; border: dotted red 1px; word-wrap: break-word; text-align: center; background-color: white">
-        	{{ event.text }}
+        	<a href="#/events/{{event.EvntID}}" style="text-decoration : none; color : #000000;">{{ event.text }} </a>
         	</div>
         	</div>
       	</ion-scroll>
