@@ -58,7 +58,7 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 		controller: 'timelineController'
 	})
 	.state('events', {
-		url: '/events/:EvntID',
+		url: '/events/:eventID',
 		templateUrl: 'templates/events.html',
 		controller: 'eventsController'
 	})	
@@ -211,6 +211,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 				
     				var year = res.rows.item(i).StampedYear;
     				var title = res.rows.item(i).EvntTitle;
+    				var EvntID = res.rows.item(i).EvntID;
 
  				var Locator = year - 1915;
  				var needCheck = blockVal*2;
@@ -256,7 +257,8 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
       					xloc: LocatorString,
       					yloc: boxStringY,
       					boxWidth: widthString,
-      					position: 'absolute'
+      					position: 'absolute',
+      					EvntID: EvntID
     					});								
 				}
 			}
@@ -272,7 +274,7 @@ ionicApp.controller("eventsController", function($scope, $ionicPlatform, $cordov
 	$ionicPlatform.ready(function() {
 		var query = "SELECT * FROM RecordedEvents where EvntID = ?";
 	
-		$cordovaSQLite.execute(db, query, [$stateParams.EvntID]).then(function(res) {
+		$cordovaSQLite.execute(db, query, [$stateParams.eventID]).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
 					$scope.events.push({EvntID: res.rows.item(i).EvntID, EvntTitle: res.rows.item(i).EvntTitle, EvntImgLnk: res.rows.item(i).EvntImgLnk, EvntDsptn: res.rows.item(i).EvntDsptn });
