@@ -58,7 +58,7 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 		controller: 'timelineController'
 	})
 	.state('events', {
-		url: '/events/:eventID',
+		url: '/events/:EvntID',
 		templateUrl: 'templates/events.html',
 		controller: 'eventsController'
 	})	
@@ -68,7 +68,7 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 		controller: 'productlistController'
 	})	
 	.state('products', {
-		url: '/events/:eventID',
+		url: '/products/:prodID',
 		templateUrl: 'templates/products.html',
 		controller: 'productsController'
 	})
@@ -270,12 +270,12 @@ ionicApp.controller("eventsController", function($scope, $ionicPlatform, $cordov
 	$scope.events = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT EvntID, EvntTitle, EvntImgLnk, EvntDsptn, StampedYear, StampedMonth, StampedDay FROM RecordedEvents, TimeStamps WHERE RecordedEvents.TimeStampID = TimeStamps.TimeStampID AND RecordedEvents.EvntID = ?";
+		var query = "SELECT * FROM RecordedEvents where EvntID = ?";
 	
-		$cordovaSQLite.execute(db, query, [$stateParams.eventID]).then(function(res) {
+		$cordovaSQLite.execute(db, query, [$stateParams.EvntID]).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.events.push({EvntID: res.rows.item(i).EvntID, EvntTitle: res.rows.item(i).EvntTitle, EvntImgLnk: res.rows.item(i).EvntImgLnk, EvntDsptn: res.rows.item(i).EvntDsptn, StampedYear: res.rows.item(i).StampedYear, StampedMonth: res.rows.item(i).StampedMonth, StampedDay: res.rows.item(i).StampedDay });
+					$scope.events.push({EvntID: res.rows.item(i).EvntID, EvntTitle: res.rows.item(i).EvntTitle, EvntImgLnk: res.rows.item(i).EvntImgLnk, EvntDsptn: res.rows.item(i).EvntDsptn });
 				}
 			}
 		}, function(err) {
