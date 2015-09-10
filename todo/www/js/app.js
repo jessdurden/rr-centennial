@@ -211,7 +211,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 				
     				var year = res.rows.item(i).StampedYear;
     				var title = res.rows.item(i).EvntTitle;
-    				var EvntID = res.rows.item(i).EventID;
+    				var EventID = res.rows.item(i).EventID;
 
  				var Locator = year - 1915;
  				var needCheck = blockVal*2;
@@ -272,7 +272,7 @@ ionicApp.controller("eventsController", function($scope, $ionicPlatform, $cordov
 	$scope.events = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT * FROM RecordedEvents where EvntID = ?";
+		var query = "SELECT * FROM RecordedEvents where EventID = ?";
 	
 		$cordovaSQLite.execute(db, query, [$stateParams.eventID]).then(function(res) {
 			if(res.rows.length > 0) {
