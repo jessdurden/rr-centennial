@@ -57,6 +57,11 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 		templateUrl: 'templates/timeline.html',
 		controller: 'timelineController'
 	})
+	.state('events', {
+		url: '/events/:eventID',
+		templateUrl: 'templates/events.html',
+		controller: 'eventsController'
+	})	
 	.state('productlist', {
 		url: '/productlist',
 		templateUrl: 'templates/productlist.html',
@@ -127,7 +132,7 @@ ionicApp.controller("aboutController", function($scope, $ionicPlatform, $cordova
 	$scope.recordedevents = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT EvntID, EvntDsptn FROM RecordedEvents";
+		var query = "SELECT EventID, EvntDsptn FROM RecordedEvents";
 	
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
@@ -146,19 +151,164 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 	$scope.recordedeventstl = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT EvntID, EvntDsptn FROM RecordedEvents";
-	
+		
+		var timebox = document.getElementById("timelinebox");
+		/*document.getElementById("testnum").innerHTML = timebox.clientHeight;*/
+		var c=document.getElementById("timeline");
+		var BaseHeight = timebox.clientHeight;
+		var BaseWidth = timebox.clientWidth;
+		/*var datebox=document.getElementById("DateBox");
+		var dateWidth = datebox.clientWidth;*/
+		var sizeAdjust = 10;
+		var BaseLength = BaseHeight*sizeAdjust+(BaseHeight/sizeAdjust);
+		c.height = BaseHeight;
+		c.width = BaseLength;
+		var ctx=c.getContext("2d");
+		ctx.beginPath();
+		ctx.moveTo(0,BaseHeight/2);
+		ctx.lineTo(BaseLength,BaseHeight/2);
+		ctx.stroke();
+		for(i = 0; i <= (BaseLength-(BaseHeight/sizeAdjust)); i += (BaseHeight/sizeAdjust)){
+ 			ctx.beginPath();
+ 			ctx.moveTo((BaseHeight/2/sizeAdjust)+i,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
+ 			ctx.lineTo((BaseHeight/2/sizeAdjust)+i,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
+ 			ctx.stroke();
+ 			}
+ 		var offsetDate = (BaseHeight/2/sizeAdjust);
+ 		var slopeDate = (BaseHeight/sizeAdjust);
+ 			$scope.dates = [];
+ 			var datesArray = [];
+ 			for (i = 0; i <= 100; i++) {
+ 				var backendDate =1915 + i;
+ 				var UpVal = slopeDate*i + offsetDate;
+ 				var UpString = UpVal.toString();
+ 				UpString = UpString+'px';
+ 				var backendString = backendDate.toString();
+				var UpValY = (BaseHeight/2)+2*(BaseHeight/10/sizeAdjust);
+				var UpStringY = UpValY.toString();
+				UpStringY = UpStringY+'px';
+    				datesArray[i] = {
+      					text: backendString,
+      					xloc: UpString,
+      					yloc: UpStringY,
+      					position: 'absolute'
+    					};
+    			}
+		    	$scope.dates=datesArray;
+		/*var query = "SELECT EvntID, EvntDsptn, StampedYear FROM RecordedEvents";*/
+		var query = "SELECT * FROM RecordedEvents,TimeStamps WHERE RecordedEvents.TimeStampID = TimeStamps.TimeStampID";
+		
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
+				var FilledDate = Array(2);
+				FilledDate[0] = Array(100).fill(0);
+				FilledDate[1] = Array(100).fill(0);
+				var blockVal = Math.ceil(BaseWidth*0.9/slopeDate);
+				blockVal = blockVal.toString();
+				var topOrBottom = 0;
+				var count = 0;
+				
+				var yearSort = [];
+				var yearIndex = [];
+			for(var i = 0; i < res.rows.length; i++) {
+				yearSort[i] = res.rows.item(i).StampedYear;
+		}	
+			yearSort = yearSort.sort();		
+				
+			for(var i = 0; i < res.rows.length; i++) {
+				var newi = 0;
+				for(var j = 0; j < res.rows.length; j++) {
+					var yearCheck = res.rows.item(j).StampedYear;
+					var sortCheck = yearSort[i];
+					if(sortCheck == yearCheck){
+						newi = j;
+					}	
+				}
+				
+    				var year = res.rows.item(newi).StampedYear;
+    				var title = res.rows.item(newi).EvntTitle;
+    				var EventID = res.rows.item(newi).EventID;
+
+ 				var Locator = year - 1915;
+ 				var needCheck = blockVal*2;
+ 				for(var k = 0; k <= needCheck; k++) {
+ 					var checkVal = k + Locator - blockVal;
+ 					if(checkVal >= 0){
+ 						FilledDate[topOrBottom][checkVal] = FilledDate[topOrBottom][checkVal] + 1;
+ 					}
+ 				}
+ 				var endOffSet = -50;
+ 				if(Locator <= 2){
+ 					endOffSet = (Locator/2)*(-45) - 5;
+ 					} else if(Locator >= 97){
+ 						endOffSet = ((Locator - 97)/2)*(-50) - 50;
+ 					}
+ 					endOffSet = endOffSet.toString();
+ 					endOffSet = endOffSet + '%';
+ 				var LocatorVal = slopeDate*Locator + offsetDate;
+ 				var LocatorString = LocatorVal.toString();
+ 				LocatorString = LocatorString + 'px';
+ 				if(topOrBottom == 0){
+    					var boxValY = (BaseHeight/2)-2*slopeDate*FilledDate[topOrBottom][Locator];
+    					ctx.beginPath();
+ 					ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
+ 					ctx.lineTo(LocatorVal,boxValY+5);
+ 					ctx.stroke();
+    					topOrBottom = 1;
+    					
+    				} else{
+    					var boxValY = (BaseHeight/2)+2*slopeDate*FilledDate[topOrBottom][Locator];
+    					ctx.beginPath();
+ 					ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
+ 					ctx.lineTo(LocatorVal,boxValY+5);
+ 					ctx.stroke();
+    					topOrBottom = 0;
+  				}
+				
+				var boxStringY = boxValY.toString();
+				boxStringY = boxStringY+'px';
+				var widthVal = BaseWidth*0.9;
+				var widthString = widthVal.toString();
+				widthString = widthString+'px';
+				var heightVal = BaseWidth*0.45;
+				var heightString = heightVal.toString();
+				heightString = heightString+'px';
+				
+				var printcount = i.toString();
+				
+    				$scope.recordedeventstl.push({
+      					text: title,
+      					xloc: LocatorString,
+      					yloc: boxStringY,
+      					boxWidth: widthString,
+      					position: 'absolute',
+      					EvntID: EventID,
+      					endOffset: endOffSet
+    					});								
+				}
+			}
+		}, function(err) {
+			console.error(err);
+		});		
+	});	
+});
+
+ionicApp.controller("eventsController", function($scope, $ionicPlatform, $cordovaSQLite, $stateParams) {
+	$scope.events = [];
+	
+	$ionicPlatform.ready(function() {
+		var query = "SELECT * FROM RecordedEvents where EventID = ?";
+	
+		$cordovaSQLite.execute(db, query, [$stateParams.eventID]).then(function(res) {
+			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.recordedeventstl.push({EvntID: res.rows.item(i).EvntID, EvntDsptn: res.rows.item(i).EvntDsptn});
+					$scope.events.push({EvntID: res.rows.item(i).EvntID, EvntTitle: res.rows.item(i).EvntTitle, EvntImgLnk: res.rows.item(i).EvntImgLnk, EvntDsptn: res.rows.item(i).EvntDsptn });
 				}
 			}
 		}, function(err) {
 			console.error(err);
 		});
 	});
-	
 });
 
 ionicApp.controller("productlistController", function($scope, $ionicPlatform, $cordovaSQLite) {
