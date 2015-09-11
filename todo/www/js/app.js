@@ -196,7 +196,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
     			}
 		    	$scope.dates=datesArray;
 		/*var query = "SELECT EvntID, EvntDsptn, StampedYear FROM RecordedEvents";*/
-		var query = "SELECT * FROM RecordedEvents,TimeStamps WHERE RecordedEvents.TimeStampID = TimeStamps.TimeStampID and RecordedEvents.EventID = 1";
+		var query = "SELECT * FROM RecordedEvents,TimeStamps WHERE RecordedEvents.TimeStampID = TimeStamps.TimeStampID";
 		
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
@@ -207,20 +207,44 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 				blockVal = blockVal.toString();
 				var topOrBottom = 0;
 				var count = 0;
-			for(var i = 0; i < res.rows.length; i++) {
 				
-    				var year = res.rows.item(i).StampedYear;
-    				var title = res.rows.item(i).EvntTitle;
-    				var EventID = res.rows.item(i).EventID;
+				var yearSort = [];
+				var yearIndex = [];
+			for(var i = 0; i < res.rows.length; i++) {
+				yearSort[i] = res.rows.item(i).StampedYear;
+		}	
+			yearSort = yearSort.sort();		
+				
+			for(var i = 0; i < res.rows.length; i++) {
+				var newi = 0;
+				for(var j = 0; j < res.rows.length; j++) {
+					var yearCheck = res.rows.item(j).StampedYear;
+					var sortCheck = yearSort[i];
+					if(sortCheck == yearCheck){
+						newi = j;
+					}	
+				}
+				
+    				var year = res.rows.item(newi).StampedYear;
+    				var title = res.rows.item(newi).EvntTitle;
+    				var EventID = res.rows.item(newi).EventID;
 
  				var Locator = year - 1915;
  				var needCheck = blockVal*2;
- 				for(var i = 0; i <= needCheck; i++) {
- 					var checkVal = i + Locator - blockVal;
+ 				for(var k = 0; k <= needCheck; k++) {
+ 					var checkVal = k + Locator - blockVal;
  					if(checkVal >= 0){
  						FilledDate[topOrBottom][checkVal] = FilledDate[topOrBottom][checkVal] + 1;
  					}
  				}
+ 				var endOffSet = -50;
+ 				if(Locator <= 2){
+ 					endOffSet = (Locator/2)*(-45) - 5;
+ 					} else if(Locator >= 97){
+ 						endOffSet = ((Locator - 97)/2)*(-50) - 50;
+ 					}
+ 					endOffSet = endOffSet.toString();
+ 					endOffSet = endOffSet + '%';
  				var LocatorVal = slopeDate*Locator + offsetDate;
  				var LocatorString = LocatorVal.toString();
  				LocatorString = LocatorString + 'px';
@@ -250,7 +274,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 				var heightString = heightVal.toString();
 				heightString = heightString+'px';
 				
-				//var printcount = FilledDate[0][checkVal].toString();
+				var printcount = i.toString();
 				
     				$scope.recordedeventstl.push({
       					text: title,
@@ -258,7 +282,8 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
       					yloc: boxStringY,
       					boxWidth: widthString,
       					position: 'absolute',
-      					EvntID: EventID
+      					EvntID: EventID,
+      					endOffset: endOffSet
     					});								
 				}
 			}

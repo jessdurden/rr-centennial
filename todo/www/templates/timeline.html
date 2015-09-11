@@ -19,12 +19,12 @@
         	Basic
         	</div-->
         	<div ng-repeat="date in dates" ng-style="{top: date.yloc, left: date.xloc, position: date.position}">
-        	<div style="position: relative; left: -50%; border: dotted red 1px;">
+        	<div style="position: relative; left: -50%; border: dotted red 1px; background-color: white">
         	{{ date.text }}
         	</div>
         	</div>
         	<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}" style="border: dotted blue 1px">
-        	<div style="position: relative; left: -50%; top: -50%; border: dotted red 1px; word-wrap: break-word; text-align: center; background-color: white">
+        	<div ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; word-wrap: break-word; text-align: center; background-color: white">
         	<a href="#/events/{{event.EvntID}}" style="text-decoration : none; color : #000000;">{{ event.text }} </a>
         	</div>
         	</div>
