@@ -1,0 +1,15 @@
+<ion-view title="customerlist">
+	<!-- check www/templates/home.html for a explanation on .html templates -->
+	<ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
+  		<h1 class="headertitle"><b>Customer List</b></h1>
+		<img src="img/logont.png" id="rrlogo" ui-sref="home"></img>
+		<img src="img/centlogont.png" id="centlogo"></img>
+	</ion-header-bar>
+	<ion-content>
+		<ion-list>
+			<ion-item class="item item-text-wrap" ng-repeat="customer in customerlist" href="#/customers/{{customer.CustomerID}}">  <!-- this comes from what is after $Scope. in the productlistController -->
+				<h1>{{customer.CustomerName}}</h1>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>
