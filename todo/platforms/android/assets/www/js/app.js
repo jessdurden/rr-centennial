@@ -164,11 +164,11 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 		c.height = BaseHeight;
 		c.width = BaseLength;
 		var ctx=c.getContext("2d");
-		ctx.beginPath();
+		ctx.beginPath(); /* draws main timeline */
 		ctx.moveTo(0,BaseHeight/2);
 		ctx.lineTo(BaseLength,BaseHeight/2);
 		ctx.stroke();
-		for(i = 0; i <= (BaseLength-(BaseHeight/sizeAdjust)); i += (BaseHeight/sizeAdjust)){
+		for(i = 0; i <= (BaseLength-(BaseHeight/sizeAdjust)); i += (BaseHeight/sizeAdjust)){  /* draws individual ticks for years */
  			ctx.beginPath();
  			ctx.moveTo((BaseHeight/2/sizeAdjust)+i,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
  			ctx.lineTo((BaseHeight/2/sizeAdjust)+i,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
@@ -178,31 +178,35 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
  		var slopeDate = (BaseHeight/sizeAdjust);
  			$scope.dates = [];
  			var datesArray = [];
- 			for (i = 0; i <= 100; i++) {
- 				var backendDate =1915 + i;
- 				var UpVal = slopeDate*i + offsetDate;
+ 			for (ia = 0; ia <= 100; ia++) {
+ 				var backendDate =1915 + ia;
+ 				var UpVal = slopeDate*ia + offsetDate;
  				var UpString = UpVal.toString();
  				UpString = UpString+'px';
  				var backendString = backendDate.toString();
 				var UpValY = (BaseHeight/2)+2*(BaseHeight/10/sizeAdjust);
 				var UpStringY = UpValY.toString();
 				UpStringY = UpStringY+'px';
-    				datesArray[i] = {
+    				datesArray[ia] = {
       					text: backendString,
       					xloc: UpString,
       					yloc: UpStringY,
       					position: 'absolute'
     					};
-    			}
-		    	$scope.dates=datesArray;
+    		}
+		    $scope.dates=datesArray;
 		/*var query = "SELECT EvntID, EvntDsptn, StampedYear FROM RecordedEvents";*/
 		var query = "SELECT * FROM RecordedEvents,TimeStamps WHERE RecordedEvents.TimeStampID = TimeStamps.TimeStampID";
 		
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
-			if(res.rows.length > 0) {
-				var FilledDate = Array(2);
-				FilledDate[0] = Array(100).fill(0);
-				FilledDate[1] = Array(100).fill(0);
+			if(res.rows.length > 0) {					
+				var FilledDate = Array(2);                            /*Filled Date */
+				FilledDate[0] = Array(100);							/*Filled Date */
+				FilledDate[1] = Array(100);									/*Filled Date */
+				for(var id = 0; id <= 99; id++) {
+					FilledDate[0][id] = 0;									/*Filled Date */
+					FilledDate[1][id] = 0;									/*Filled Date */
+				}				
 				var blockVal = Math.ceil(BaseWidth*0.9/slopeDate);
 				blockVal = blockVal.toString();
 				var topOrBottom = 0;
@@ -210,71 +214,78 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 				
 				var yearSort = [];
 				var yearIndex = [];
-			for(var i = 0; i < res.rows.length; i++) {
-				yearSort[i] = res.rows.item(i).StampedYear;
-		}	
-			yearSort = yearSort.sort();		
 				
-			for(var i = 0; i < res.rows.length; i++) {
-				var newi = 0;
-				for(var j = 0; j < res.rows.length; j++) {
-					var yearCheck = res.rows.item(j).StampedYear;
-					var sortCheck = yearSort[i];
-					if(sortCheck == yearCheck){
-						newi = j;
-					}	
-				}
+				for(var ib = 0; ib < res.rows.length; ib++) {
+					yearSort[ib] = res.rows.item(ib).StampedYear;
+				}	
+				yearSort = yearSort.sort();		
+				
+				for(var ic = 0; ic < res.rows.length; ic++) {
+				
+					var newi = 0;
+					for(var j = 0; j < res.rows.length; j++) {
+						var yearCheck = res.rows.item(j).StampedYear;
+						var sortCheck = yearSort[ic];
+						if(sortCheck == yearCheck){
+							newi = j;
+						}	
+					}
 				
     				var year = res.rows.item(newi).StampedYear;
     				var title = res.rows.item(newi).EvntTitle;
     				var EventID = res.rows.item(newi).EventID;
 
- 				var Locator = year - 1915;
- 				var needCheck = blockVal*2;
- 				for(var k = 0; k <= needCheck; k++) {
- 					var checkVal = k + Locator - blockVal;
- 					if(checkVal >= 0){
- 						FilledDate[topOrBottom][checkVal] = FilledDate[topOrBottom][checkVal] + 1;
- 					}
- 				}
- 				var endOffSet = -50;
- 				if(Locator <= 2){
- 					endOffSet = (Locator/2)*(-45) - 5;
+					var Locator = year - 1915;
+					var needCheck = blockVal*2;
+					
+					for(var k = 0; k <= needCheck; k++) {
+						var checkVal = k + Locator - blockVal;
+						if(checkVal >= 0){
+							FilledDate[topOrBottom][checkVal] = FilledDate[topOrBottom][checkVal] + 1;						/*Filled Date */
+						}
+					}
+					var endOffSet = -50;
+					
+					if(Locator <= 2){
+						endOffSet = (Locator/2)*(-45) - 5;
  					} else if(Locator >= 97){
  						endOffSet = ((Locator - 97)/2)*(-50) - 50;
  					}
+					
  					endOffSet = endOffSet.toString();
  					endOffSet = endOffSet + '%';
- 				var LocatorVal = slopeDate*Locator + offsetDate;
- 				var LocatorString = LocatorVal.toString();
- 				LocatorString = LocatorString + 'px';
- 				if(topOrBottom == 0){
-    					var boxValY = (BaseHeight/2)-2*slopeDate*FilledDate[topOrBottom][Locator];
+					var LocatorVal = slopeDate*Locator + offsetDate;
+					var LocatorString = LocatorVal.toString();
+					LocatorString = LocatorString + 'px';
+					
+					/* alternates top or bottom for timeline  */
+					if(topOrBottom == 0){
+    					var boxValY = (BaseHeight/2)-2*slopeDate*FilledDate[topOrBottom][Locator];													/*Filled Date */
     					ctx.beginPath();
- 					ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
- 					ctx.lineTo(LocatorVal,boxValY+5);
- 					ctx.stroke();
+						ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
+						ctx.lineTo(LocatorVal,boxValY+5);
+						ctx.stroke();
     					topOrBottom = 1;
     					
     				} else{
-    					var boxValY = (BaseHeight/2)+2*slopeDate*FilledDate[topOrBottom][Locator];
+    					var boxValY = (BaseHeight/2)+2*slopeDate*FilledDate[topOrBottom][Locator];						/*Filled Date */
     					ctx.beginPath();
- 					ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
- 					ctx.lineTo(LocatorVal,boxValY+5);
- 					ctx.stroke();
+						ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
+						ctx.lineTo(LocatorVal,boxValY+5);
+						ctx.stroke();
     					topOrBottom = 0;
-  				}
+					}
+									
+					var boxStringY = boxValY.toString();
+					boxStringY = boxStringY+'px';
+					var widthVal = BaseWidth*0.9;
+					var widthString = widthVal.toString();
+					widthString = widthString+'px';
+					var heightVal = BaseWidth*0.45;
+					var heightString = heightVal.toString();
+					heightString = heightString+'px';
 				
-				var boxStringY = boxValY.toString();
-				boxStringY = boxStringY+'px';
-				var widthVal = BaseWidth*0.9;
-				var widthString = widthVal.toString();
-				widthString = widthString+'px';
-				var heightVal = BaseWidth*0.45;
-				var heightString = heightVal.toString();
-				heightString = heightString+'px';
-				
-				var printcount = i.toString();
+					var printcount = ic.toString();
 				
     				$scope.recordedeventstl.push({
       					text: title,
@@ -284,7 +295,8 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
       					position: 'absolute',
       					EvntID: EventID,
       					endOffset: endOffSet
-    					});								
+    				});
+
 				}
 			}
 		}, function(err) {

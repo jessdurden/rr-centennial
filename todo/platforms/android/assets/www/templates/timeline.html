@@ -1,7 +1,7 @@
 <ion-view title="timeline">
 	<!-- check www/templates/home.html for a explanation on .html templates -->
   <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
-  		<h1 class="headertitle"><b>Timeline</b></h1>
+  		<h1 class="headertitle"><b>Timeline4</b></h1>
 		<img src="img/logont.png" id="rrlogo" ui-sref="home"></img>
 		<img src="img/centlogont.png" id="centlogo"></img>
   </ion-header-bar>
@@ -9,23 +9,14 @@
   <ion-content id="timelinebox" padding="False" class="has-header">
   	<ion-scroll id="timelinewindow" zooming="false" direction="x" scrollbar-x="false"  scrollbar-y="false" has-bouncing="false">
 		<canvas id="timeline">
-        </canvas>
-        	<!--div style="width: 5000px; height: 5000px">
-        		<img ng-src="img/Europe_geological_map-en.jpg"></img>
-        	</div-->
-        	<!--div style="border: 2px solid blue;"id="testnum">
-        	Inside Scroll
-        	</div-->
-        	<!-- div ng-style="{top: '50px', left: '60px', position: 'absolute'}">
-        	Basic
-        	</div-->
+		</canvas>
         	<div ng-repeat="date in dates" ng-style="{top: date.yloc, left: date.xloc, position: date.position}">
-				<div style="position: relative; left: -50%; border: dotted red 1px; background-color: white">
+				<div style="position: relative; left: -50%; border: dotted red 1px; background-color: #c1c1c1">
 					{{ date.text }}
 				</div>
         	</div>
         	<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}" style="border: dotted blue 1px">
-				<div ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; word-wrap: break-word; text-align: center; background-color: white">
+				<div ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; word-wrap: break-word; text-align: center; background-color: #c1c1c1">
 					<a href="#/events/{{event.EvntID}}" style="text-decoration : none; color : #000000;">{{ event.text }} </a>
 				</div>
         	</div>
