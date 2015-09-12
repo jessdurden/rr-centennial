@@ -213,8 +213,9 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 			for(var i = 0; i < res.rows.length; i++) {
 				yearSort[i] = res.rows.item(i).StampedYear;
 		}	
-			yearSort = yearSort.sort();		
-				
+			yearSort = yearSort.sort();
+			$scope.recordedeventstl = [];		
+			var eventsArray = [];
 			for(var i = 0; i < res.rows.length; i++) {
 				var newi = 0;
 				for(var j = 0; j < res.rows.length; j++) {
@@ -241,7 +242,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
  				if(Locator <= 2){
  					endOffSet = (Locator/2)*(-45) - 5;
  					} else if(Locator >= 97){
- 						endOffSet = ((Locator - 97)/2)*(-50) - 50;
+ 						endOffSet = ((Locator - 97)/2)*(-50) - 45;
  					}
  					endOffSet = endOffSet.toString();
  					endOffSet = endOffSet + '%';
@@ -276,7 +277,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 				
 				var printcount = i.toString();
 				
-    				$scope.recordedeventstl.push({
+    					eventsArray[i] = {
       					text: title,
       					xloc: LocatorString,
       					yloc: boxStringY,
@@ -284,8 +285,9 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
       					position: 'absolute',
       					EvntID: EventID,
       					endOffset: endOffSet
-    					});								
+    					};								
 				}
+				$scope.recordedeventstl = eventsArray;
 			}
 		}, function(err) {
 			console.error(err);
