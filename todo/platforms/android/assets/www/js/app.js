@@ -201,8 +201,12 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
 				var FilledDate = Array(2);
-				FilledDate[0] = Array(100).fill(0);
-				FilledDate[1] = Array(100).fill(0);
+				FilledDate[0] = Array(100);
+				FilledDate[1] = Array(100);
+				for(var i = 0; i < 100; i++) {
+					FilledDate[0][i] = 0;
+					FilledDate[1][i] = 0;
+				}
 				var blockVal = Math.ceil(BaseWidth*0.9/slopeDate);
 				blockVal = blockVal.toString();
 				var topOrBottom = 0;
