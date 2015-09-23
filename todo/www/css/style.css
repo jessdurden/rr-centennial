@@ -85,6 +85,15 @@ img.ataglance {
 	padding: 2.5%;
 }
 
+img.backbutton {
+	position: absolute;
+	left: 10px;
+	width: 27px;
+	height: 44px;
+	top: 8px;
+	float: left;
+}
+
 .nobdr {
 	border: none;
 }
@@ -98,7 +107,7 @@ height of logos should be 11 less than value stored in "$bar-height"
 */
 /* Rolls Royce logo located on the left of the header*/
 #rrlogo {
-	position:  fixed;
+	position:  absolute;
 	left:      10px;
 	width:     33px;  /*with width of 64 width for logo with words is 274*/
 	height:    54px;
