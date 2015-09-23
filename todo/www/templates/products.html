@@ -2,14 +2,20 @@
 	<!-- check www/templates/home.html for a explanation on .html templates -->
   <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
   		<h1 class="headertitle"><b>Products</b></h1>
-		<img src="img/logont.png" id="rrlogo" ui-sref="home"></img>
+		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()"></img>
 		<img src="img/centlogont.png" id="centlogo"></img>
 	</ion-header-bar>
   <ion-content>
 	<div class="item item-text-wrap" ng-repeat="product in products">
 		<h2>{{product.ProductName}}</h2>
-		<p> Description: {{product.ProductDsptn}}<br>potato?
+		<p> Description: {{product.ProductDsptn}}
 		</p>
+		<br>
+		<h2>{{product.ProductName}} Variants</h2>
+		<ion-item class="item item-text-wrap" ng-repeat="variant in variantlist" href="#/variants/{{variant.ProdVarID}}">  <!-- this comes from what is after $Scope. in the productController -->
+			<h1>{{variant.ProdVarName}}</h1>
+		</ion-item>
+			
     </div>
   </ion-content>
 </ion-view>

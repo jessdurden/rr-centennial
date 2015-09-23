@@ -72,6 +72,11 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 		templateUrl: 'templates/products.html',
 		controller: 'productsController'
 	})
+	.state('variants', {
+		url: '/variants/:varID',
+		templateUrl: 'templates/variants.html',
+		controller: 'variantsController'
+	})
 	.state('platformlist', {
 		url: '/platformlist',
 		templateUrl: 'templates/platformlist.html',
@@ -339,12 +344,46 @@ ionicApp.controller("productsController", function($scope, $ionicPlatform, $cord
 	$scope.products = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT ProductID, ProductName, ProductDsptn, ProductImgLnk, ProductQckFct, ProductSpecs FROM Products where ProductID = ?";
+		var query = "SELECT * FROM Products where ProductID = ?";
 	
 		$cordovaSQLite.execute(db, query, [$stateParams.prodID]).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
 					$scope.products.push({ProductID: res.rows.item(i).ProductID, ProductName: res.rows.item(i).ProductName, ProductDsptn: res.rows.item(i).ProductDsptn, ProductImgLnk: res.rows.item(i).ProductImgLnk, ProductQckFct: res.rows.item(i).ProductQckFct, ProductSpecs: res.rows.item(i).ProductSpecs});
+				}
+			}
+		}, function(err) {
+			console.error(err);
+		});
+	});
+
+	$scope.variantlist = [];
+	
+	$ionicPlatform.ready(function() {
+		var query2 = "Select ProdVarID, ProdVarName from Prod_Variants where ProductID = ?";
+		
+		$cordovaSQLite.execute(db, query2, [$stateParams.prodID]).then(function(res) {
+			if(res.rows.length > 0) {
+				for(var j = 0; j < res.rows.length; j++) {
+					$scope.variantlist.push({ProdVarID: res.rows.item(j).ProdVarID, ProdVarName: res.rows.item(j).ProdVarName});
+				}
+			}
+		}, function(err) {
+			console.eror(err);
+		});
+	});
+});
+
+ionicApp.controller("variantsController", function($scope, $ionicPlatform, $cordovaSQLite, $stateParams) {
+	$scope.variants = [];
+	
+	$ionicPlatform.ready(function() {
+		var query = "SELECT * FROM Prod_Variants where ProdVarID = ?";
+		
+		$cordovaSQLite.execute(db, query, [$stateParams.varID]).then(function(res) {
+			if(res.rows.length > 0) {
+				for(var i = 0; i < res.rows.length; i++) {
+					$scope.variants.push({ProdVarID: res.rows.item(i).ProdVarID, ProdVarName: res.rows.item(i).ProdVarName, ProductID: res.rows.item(i).ProductID, ProdVarDsptn: res.rows.item(i).ProdVarDsptn, ProdVarImgLnk: res.rows.item(i).ProdVarImgLnk, ProdVarSpec1: res.rows.item(i).ProdVarSpec1, ProdVarSpec2: res.rows.item(i).ProdVarSpec2, ProdVarSpec3: res.rows.item(i).ProdVarSpec3, ProdVarSpec4: res.rows.item(i).ProdVarSpec4, ProdVarSpec5: res.rows.item(i).ProdVarSpec5, ProdVarSpec6: res.rows.item(i).ProdVarSpec6, ProdVarSpec7: res.rows.item(i).ProdVarSpec7});
 				}
 			}
 		}, function(err) {
