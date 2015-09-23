@@ -10,6 +10,12 @@
 		<h2>{{product.ProductName}}</h2>
 		<p> Description: {{product.ProductDsptn}}
 		</p>
+		<br>
+		<h2>{{product.ProductName}} Variants</h2>
+		<ion-item class="item item-text-wrap" ng-repeat="variant in variantlist" href="#/variants/{{variant.ProdVarID}}">  <!-- this comes from what is after $Scope. in the productController -->
+			<h1>{{variant.ProdVarName}}</h1>
+		</ion-item>
+			
     </div>
   </ion-content>
 </ion-view>
