@@ -1,0 +1,16 @@
+<ion-view title="customers">
+	<!-- check www/templates/home.html for a explanation on .html templates -->
+  <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
+  		<h1 class="headertitle"><b>Customers</b></h1>
+		<img src="img/logont.png" id="rrlogo" ui-sref="home"></img>
+		<img src="img/centlogont.png" id="centlogo"></img>
+	</ion-header-bar>
+  <ion-content padding="true">
+	<div class="item item-text-wrap" ng-repeat="customer in customers">
+		<img src={{customer.CustomerImgLnk}} class="ataglance"></img>
+		<h2>Description: <h2> <p>{{customer.CustomerDsptn}}</p>
+		<h2>Image:</h2> <p> {{customer.CustomerImgLnk}} </p>
+
+    </div>
+  </ion-content>
+</ion-view>

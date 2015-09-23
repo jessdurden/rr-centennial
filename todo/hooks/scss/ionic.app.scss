@@ -1,0 +1,48 @@
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #387ef5 !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
+*/
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts" !default;
+
+/*
+THIS IS WHERE VARIABLES FROM "LIB/IONIC/SCSS/_VARIABLES.SCSS" ARE CHANGED. 
+THEY CAN NOT BE CHANGED IN THE ACTUAL FILE OR UPDATES TO IONIC WILL OVERWRITE THEM
+*/
+
+$positive:                        #004990 !default;  					// primary navy for header bar
+$stable:                          #B8BABC !default;						// primary silver for buttons transparent
+$dark:                            #768D99 !default;  					// help
+$base-background-color:           #fff !default;  						// base background color for the entire app
+$light:							  rgba(255,255,255,0) !default;			// transparent background for transparent buttons
+$button-light-active-bg:          rgba(255,255,255,0) !default;			// Makes the light button transparent when selected
+$button-light-text:               #004990 !default;						// changes the color of transparant button text to RR blue
+
+
+
+$font-family-sans-serif:          "TheMix Classic", sans-serif !default;
+$font-family-light-sans-serif:    "TheMix Light", sans-serif-light !default;
+$font-family-serif:               serif !default;
+$font-family-monospace:           monospace !default;
+
+$bar-height:                      65px !default; 					// height of header bar
+$button-positive-border:          #fff !default;  					// border color for the header bar
+$button-stable-border:            #fff !default; 					// color of border around buttons
+$button-block-margin:             0px !default;   					// amount of whitespace between buttons
+$button-large-height:             100px !default;					// hieght of button-large buttons
+
+// Include all of Ionic
+@import "www/lib/ionic/scss/ionic";

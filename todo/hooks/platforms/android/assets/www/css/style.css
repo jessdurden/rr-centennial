@@ -1,0 +1,138 @@
+/* Empty. Add your own CSS if you like */
+
+/*
+This is the CSS file specific to the app. Ionic has their own css file but whenever 
+ionic is updated changes you make to the ionic css file will be overwritten therefore
+changes spcific to our app need to be stored here.
+
+calls that start with a hashtag # are those elements that have had and id="" assigned within the html element
+
+calls starting with .?? are those that have had a class assigned via the class="" in the html element.
+text that appears before the "." indicates a specific element type that the css should apply to. 
+I.E. as in button.showinfo this indicates that the css should find a button 
+element that has a class="showinfo" and apply the following css to that element
+*/
+
+.homebg.scroll-content {
+
+/* code for a adding background image to a page with <ion-content class="logobg">
+
+	background: url('../img/centlogont.png') no-repeat;
+	background-position: center center;
+	background-size: contain;  
+	padding: 30px 10%;
+*/
+	
+	background-color: #A7A9AC; /* background color for the whole app*/
+}
+
+/* local style for buttons on the homepage*/
+.home-button {
+	font-size: 2em;
+	font-weight: bold;
+	background: linear-gradient(#EDEDEE, #A7A9AC);
+}
+
+
+/* Didn't work I was trying to fix ion-centent from being too long for my screen.
+.spacer{
+  height:0px;
+  background: red;
+}
+.platform-ios . spacer{
+  height:50px
+  background: red;
+}*/
+
+
+
+button.showinfo {
+	float: right;
+	right: 0px;
+	top: 9px;
+	position: absolute;
+	text-align: right;
+	border: none;
+	box-shadow: none;
+}
+
+.headertitle {
+	font-size: 2em;
+	font-weight: bold;
+	color: #FFF;
+	position: absolute;
+	top: 15px;
+	text-indent: 50px;
+}
+
+.item h1 {
+	font-size: 1.5em;
+	color: #004990;
+}
+
+.item h2 {
+	font-size: 1.3em;
+	color: #004990;
+}
+
+img.whatwedo {
+	float: right;
+	width: 100%; 
+	max-width: 58%; /* sets the maxwidth such that it fits on the same line as the title (needs some tweaking to work for smaller screens as well) */
+}
+img.ataglance {
+	width: 100%;
+	padding: 2.5%;
+}
+
+.nobdr {
+	border: none;
+}
+
+/*
+Height-width ratios for logos are as follows
+centenial logo without text			1.96
+RR logo with text					4.30
+RR logo without text				0.616
+height of logos should be 11 less than value stored in "$bar-height"
+*/
+/* Rolls Royce logo located on the left of the header*/
+#rrlogo {
+	position:  fixed;
+	left:      10px;
+	width:     33px;  /*with width of 64 width for logo with words is 274*/
+	height:    54px;
+	float: 	   left;
+}
+
+/* Centenial Logo located on the right of the header*/
+#centlogo {
+	position:  fixed;
+	right:     10px;
+	width:     106px;
+	height:    54px;
+}
+
+/* Centenial Logo located at the bottom of the homepage*/
+#homepagelogo {
+	position: absolute;
+	padding: 5px 10%;
+	width: 100%;
+}
+
+/* Size the timeline viewport*/
+#timelinewindow {
+	/*width: 500px;
+	height: 500px;
+	border-style: solid;
+	border-color: red;
+    	border-width: 2px;*/
+}
+
+/* Size the timeline*/
+#timeline {
+	/*width 5050px;
+	height 100%;*/
+	/*width=5050px;
+	height=500px;*/
+}

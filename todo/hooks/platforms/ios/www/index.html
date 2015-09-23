@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<!-- This is the index HTML file. It is the first page that is loaded when 
+	the app starts and stores the links to all the dfferent script librarys we will use. -->
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="format-detection" content="telephone=no" />
+    <title></title>
+	
+	<!-- link to the apps custom scss file where local changes to the ionic platform are made -->
+	<link href="../scss/ionic.app.scss" rel="stylesheet">
+	
+    <!-- compiled css output -->
+    <link href="css/ionic.app.css" rel="stylesheet">
+
+	<!-- app specific css file -->
+	<link href="css/style.css" rel="stylesheet" type="text/css">	
+	
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+	<script src="js/ng-cordova.min.js"></script>
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+  </head>
+  <body ng-app="starter" class="platform-ios platform-cordova platform-webview"> <!-- this ng-app"starter" line references the www/js/app.js file and
+							runs the "angular.module('starter', ['ionic'])" line which launches 
+							the conroller for the app -->
+	<ion-nav-view></ion-nav-view>
+  </body>
+</html>
