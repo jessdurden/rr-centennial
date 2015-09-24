@@ -8,7 +8,9 @@
 	<ion-content>
 		<ion-list>
 			<ion-item class="item item-text-wrap" ng-repeat="product in productlist" href="#/products/{{product.ProductID}}">  <!-- this comes from what is after $Scope. in the productlistController -->
-				<h1>{{product.ProductName}}</h1>
+				<h1>{{product.ProductName}}
+				<img src="{{product.ProductImgLnk}}" class="listimg"></img>
+				</h1>
 			</ion-item>
 		</ion-list>
 	</ion-content>
