@@ -7,9 +7,13 @@
 	</ion-header-bar>
   <ion-content>
 	<div class="item item-text-wrap" ng-repeat="variant in variants">
-		<h2>{{variant.ProdVarName}}</h2>
+		<h1>{{variant.ProdVarName}}</h1>
+		<img src="{{variant.ProdVarImgLnk}}" class="ataglance"></img>
+		<h2>About the {{variant.ProdVarName}}</h2>
 		<p> Description: {{variant.ProdVarDsptn}}
 		</p>
+		<h2>{{variant.ProdVarName}} Specs</h2>
+		<p class="speclist" ng-repeat="varspec in prodvarspeclist">{{varspec.ProdVarSpec}}<br></p>
     </div>
   </ion-content>
 </ion-view>

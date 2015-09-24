@@ -1,19 +1,23 @@
 <ion-view title="products">
 	<!-- check www/templates/home.html for a explanation on .html templates -->
   <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
-  		<h1 class="headertitle"><b>Products</b></h1>
+  		<h1 class="headertitle"><b>Product</b></h1>
 		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()"></img>
 		<img src="img/centlogont.png" id="centlogo"></img>
 	</ion-header-bar>
   <ion-content>
 	<div class="item item-text-wrap" ng-repeat="product in products">
-		<h2>{{product.ProductName}}</h2>
-		<p> Description: {{product.ProductDsptn}}
-		</p>
+		<h1>{{product.ProductName}}</h1>
+		<img src="{{product.ProductImgLnk}}" class="ataglance"></img>
+		<h2>About the {{product.ProductName}}</h2>
+		<p>{{product.ProductDsptn}}</p>
 		<br>
-		<h2>{{product.ProductName}} Variants</h2>
+		<h2>{{product.ProductName}} Specs</h2>
+		<p class="speclist" ng-repeat="spec in productspeclist">{{spec.ProductSpec}}<br></p>
+		
+		<h2 ng-repeat="novar in novariant">{{product.ProductName}} Variant pages{{novar.NoVariants}}</h2>
 		<ion-item class="item item-text-wrap" ng-repeat="variant in variantlist" href="#/variants/{{variant.ProdVarID}}">  <!-- this comes from what is after $Scope. in the productController -->
-			<h1>{{variant.ProdVarName}}</h1>
+			<h2>{{variant.ProdVarName}}</h2>
 		</ion-item>
 			
     </div>

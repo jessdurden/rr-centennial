@@ -1,7 +1,7 @@
 <ion-view title="platforms">
 	<!-- check www/templates/home.html for a explanation on .html templates -->
   <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
-  		<h1 class="headertitle"><b>Platforms</b></h1>
+  		<h1 class="headertitle"><b>Platform</b></h1>
 		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()"></img>
 		<img src="img/centlogont.png" id="centlogo"></img>
 	</ion-header-bar>
@@ -9,8 +9,8 @@
 	<div class="item item-text-wrap" ng-repeat="platform in platforms">
 		<h1>{{platform.PlatformName}}</h1>
 		<img src={{platform.PlatformImgLnk}} class="ataglance"></img>
-		<h2>Description: <h2> <p>{{platform.PlatformDsptn}}</p>
-		<h2>Image:</h2> <p> {{platform.PlatformImgLnk}} </p>
+		<h2>About the {{platform.PlatformName}}</h2>
+		<p>{{platform.PlatformDsptn}}</p>
     </div>
   </ion-content>
 </ion-view>

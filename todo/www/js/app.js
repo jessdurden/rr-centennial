@@ -326,12 +326,12 @@ ionicApp.controller("productlistController", function($scope, $ionicPlatform, $c
 	$scope.productlist = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT ProductID, ProductName FROM Products";
+		var query = "SELECT * FROM Products";
 	
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.productlist.push({ProductID: res.rows.item(i).ProductID, ProductName: res.rows.item(i).ProductName});
+					$scope.productlist.push({ProductID: res.rows.item(i).ProductID, ProductName: res.rows.item(i).ProductName, ProductImgLnk: res.rows.item(i).ProductImgLnk});
 				}
 			}
 		}, function(err) {
@@ -342,6 +342,7 @@ ionicApp.controller("productlistController", function($scope, $ionicPlatform, $c
 
 ionicApp.controller("productsController", function($scope, $ionicPlatform, $cordovaSQLite, $stateParams) {
 	$scope.products = [];
+	$scope.productspeclist = [];
 	
 	$ionicPlatform.ready(function() {
 		var query = "SELECT * FROM Products where ProductID = ?";
@@ -349,7 +350,15 @@ ionicApp.controller("productsController", function($scope, $ionicPlatform, $cord
 		$cordovaSQLite.execute(db, query, [$stateParams.prodID]).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.products.push({ProductID: res.rows.item(i).ProductID, ProductName: res.rows.item(i).ProductName, ProductDsptn: res.rows.item(i).ProductDsptn, ProductImgLnk: res.rows.item(i).ProductImgLnk, ProductQckFct: res.rows.item(i).ProductQckFct, ProductSpecs: res.rows.item(i).ProductSpecs});
+					$scope.products.push({ProductID: res.rows.item(i).ProductID, ProductName: res.rows.item(i).ProductName, ProductDsptn: res.rows.item(i).ProductDsptn, ProductImgLnk: res.rows.item(i).ProductImgLnk});
+				
+					var specarray = [res.rows.item(i).ProductSpec1, res.rows.item(i).ProductSpec2, res.rows.item(i).ProductSpec3, res.rows.item(i).ProductSpec4, res.rows.item(i).ProductSpec5, res.rows.item(i).ProductSpec6, res.rows.item(i).ProductSpec7, res.rows.item(i).ProductSpec8];
+
+					var k = 0;
+					while(specarray[k]) {
+						$scope.productspeclist.push({ProductSpec: specarray[k]});
+						k++;					
+					}
 				}
 			}
 		}, function(err) {
@@ -358,6 +367,7 @@ ionicApp.controller("productsController", function($scope, $ionicPlatform, $cord
 	});
 
 	$scope.variantlist = [];
+	$scope.novariant = [];
 	
 	$ionicPlatform.ready(function() {
 		var query2 = "Select ProdVarID, ProdVarName from Prod_Variants where ProductID = ?";
@@ -367,6 +377,9 @@ ionicApp.controller("productsController", function($scope, $ionicPlatform, $cord
 				for(var j = 0; j < res.rows.length; j++) {
 					$scope.variantlist.push({ProdVarID: res.rows.item(j).ProdVarID, ProdVarName: res.rows.item(j).ProdVarName});
 				}
+				$scope.novariant.push({NoVariants: ""});
+			} else {
+				$scope.novariant.push({NoVariants: ": None"});
 			}
 		}, function(err) {
 			console.eror(err);
@@ -376,6 +389,7 @@ ionicApp.controller("productsController", function($scope, $ionicPlatform, $cord
 
 ionicApp.controller("variantsController", function($scope, $ionicPlatform, $cordovaSQLite, $stateParams) {
 	$scope.variants = [];
+	$scope.prodvarspeclist = [];
 	
 	$ionicPlatform.ready(function() {
 		var query = "SELECT * FROM Prod_Variants where ProdVarID = ?";
@@ -383,7 +397,15 @@ ionicApp.controller("variantsController", function($scope, $ionicPlatform, $cord
 		$cordovaSQLite.execute(db, query, [$stateParams.varID]).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.variants.push({ProdVarID: res.rows.item(i).ProdVarID, ProdVarName: res.rows.item(i).ProdVarName, ProductID: res.rows.item(i).ProductID, ProdVarDsptn: res.rows.item(i).ProdVarDsptn, ProdVarImgLnk: res.rows.item(i).ProdVarImgLnk, ProdVarSpec1: res.rows.item(i).ProdVarSpec1, ProdVarSpec2: res.rows.item(i).ProdVarSpec2, ProdVarSpec3: res.rows.item(i).ProdVarSpec3, ProdVarSpec4: res.rows.item(i).ProdVarSpec4, ProdVarSpec5: res.rows.item(i).ProdVarSpec5, ProdVarSpec6: res.rows.item(i).ProdVarSpec6, ProdVarSpec7: res.rows.item(i).ProdVarSpec7});
+					$scope.variants.push({ProdVarID: res.rows.item(i).ProdVarID, ProdVarName: res.rows.item(i).ProdVarName, ProductID: res.rows.item(i).ProductID, ProdVarDsptn: res.rows.item(i).ProdVarDsptn, ProdVarImgLnk: res.rows.item(i).ProdVarImgLnk});
+					
+					var varspecarray = [res.rows.item(i).ProdVarSpec1, res.rows.item(i).ProdVarSpec2, res.rows.item(i).ProdVarSpec3, res.rows.item(i).ProdVarSpec4, res.rows.item(i).ProdVarSpec5, res.rows.item(i).ProdVarSpec6, res.rows.item(i).ProdVarSpec7, res.rows.item(i).ProdVarSpec8];
+
+					var k = 0;
+					while(varspecarray[k]) {
+						$scope.prodvarspeclist.push({ProdVarSpec: varspecarray[k]});
+						k++;					
+					}				
 				}
 			}
 		}, function(err) {
@@ -396,12 +418,12 @@ ionicApp.controller("platformlistController", function($scope, $ionicPlatform, $
 	$scope.platformlist = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT PlatformID, PlatformName FROM Platforms";
+		var query = "SELECT * FROM Platforms";
 	
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.platformlist.push({PlatformID: res.rows.item(i).PlatformID, PlatformName: res.rows.item(i).PlatformName});
+					$scope.platformlist.push({PlatformID: res.rows.item(i).PlatformID, PlatformName: res.rows.item(i).PlatformName, PlatformImgLnk: res.rows.item(i).PlatformImgLnk});
 				}
 			}
 		}, function(err) {

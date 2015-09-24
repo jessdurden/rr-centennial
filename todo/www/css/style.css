@@ -94,6 +94,18 @@ img.backbutton {
 	float: left;
 }
 
+img.listimg {
+	position: absolute;
+	float: right;
+	height: 95%;
+	right: 10px;
+	top: 2px;
+}
+
+p.speclist {
+	margin-left: 1em;
+}
+
 .nobdr {
 	border: none;
 }
