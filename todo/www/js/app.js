@@ -227,26 +227,26 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 			var eventsArray = [];
 			for(var i = 0; i < res.rows.length; i++) {
 				var newi = 0;
-				for(var j = 0; j < res.rows.length; j++) {
+				/*for(var j = 0; j < res.rows.length; j++) {
 					var yearCheck = res.rows.item(j).StampedYear;
 					var sortCheck = yearSort[i];
 					if(sortCheck == yearCheck){
 						newi = j;
 					}	
-				}
+				}*/
 				
-    				var year = res.rows.item(newi).StampedYear;
-    				var title = res.rows.item(newi).EvntTitle;
-    				var EventID = res.rows.item(newi).EventID;
+    				var year = res.rows.item(i).StampedYear;
+    				var title = res.rows.item(i).EvntTitle;
+    				var EventID = res.rows.item(i).EventID;
 
  				var Locator = year - 1915;
  				var needCheck = blockVal*2;
- 				for(var k = 0; k <= needCheck; k++) {
+ 				/*for(var k = 0; k <= needCheck; k++) {
  					var checkVal = k + Locator - blockVal;
  					if(checkVal >= 0){
  						FilledDate[topOrBottom][checkVal] = FilledDate[topOrBottom][checkVal] + 1;
  					}
- 				}
+ 				}*/
  				var endOffSet = -50;
  				if(Locator <= 2){
  					endOffSet = (Locator/2)*(-45) - 5;
@@ -259,7 +259,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
  				var LocatorString = LocatorVal.toString();
  				LocatorString = LocatorString + 'px';
  				if(topOrBottom == 0){
-    					var boxValY = (BaseHeight/2)-2*slopeDate*FilledDate[topOrBottom][Locator];
+    					var boxValY = (BaseHeight/2)-2*slopeDate; //*FilledDate[topOrBottom][Locator];
     					ctx.beginPath();
  					ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
  					ctx.lineTo(LocatorVal,boxValY+5);
@@ -267,7 +267,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
     					topOrBottom = 1;
     					
     				} else{
-    					var boxValY = (BaseHeight/2)+2*slopeDate*FilledDate[topOrBottom][Locator];
+    					var boxValY = (BaseHeight/2)+2*slopeDate; //*FilledDate[topOrBottom][Locator];
     					ctx.beginPath();
  					ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
  					ctx.lineTo(LocatorVal,boxValY+5);

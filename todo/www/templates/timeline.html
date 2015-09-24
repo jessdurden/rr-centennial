@@ -5,7 +5,7 @@
 		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()"></img>
 		<img src="img/centlogont.png" id="centlogo"></img>
 	</ion-header-bar>
-  <ion-content id="timelinebox" padding="False" class="has-header">
+  <ion-content id="timelinebox" padding="False" class="has-header" scroll="false">
   	<ion-scroll id="timelinewindow" zooming="false" direction="x" scrollbar-x="false"  scrollbar-y="false" has-bouncing="false">
   	<canvas id="timeline">
           </canvas>
@@ -24,8 +24,11 @@
         	</div>
         	</div>
         	<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}" style="border: dotted blue 1px">
-        	<div ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; word-wrap: break-word; text-align: center; background-color: white">
-        	<a href="#/events/{{event.EvntID}}" style="text-decoration : none; color : #000000;">{{ event.text }} </a>
+        	<div style="float:left; border: dotted red 1px; text-align: center; background-color: white">
+        	<!--p>This is a big block of text that doesn't mean anything. I'm just looking for answers. Helllp! </p-->
+        	<div ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; text-align: center; background-color: white">
+        	<a href="#/events/{{event.EvntID}}" style=" text-decoration : none; color : #000000;">{{ event.text }} </a>
+        	</div>
         	</div>
         	</div>
       	</ion-scroll>
