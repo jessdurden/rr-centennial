@@ -5,28 +5,24 @@
 		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()"></img>
 		<img src="img/centlogont.png" id="centlogo"></img>
 	</ion-header-bar>
-  <ion-content id="timelinebox" padding="False" class="has-header">
-  	<ion-scroll id="timelinewindow" zooming="false" direction="x" scrollbar-x="false"  scrollbar-y="false" has-bouncing="false">
-  	<canvas id="timeline">
-          </canvas>
-        	<!--div style="width: 5000px; height: 5000px">
-        		<img ng-src="img/Europe_geological_map-en.jpg"></img>
-        	</div-->
-        	<!--div style="border: 2px solid blue;"id="testnum">
-        	Inside Scroll
-        	</div-->
-        	<!--div ng-style="{top: '50px', left: '60px', position: 'absolute'}">
-        	Basic
-        	</div-->
-        	<div ng-repeat="date in dates" ng-style="{top: date.yloc, left: date.xloc, position: date.position}">
-        	<div style="position: relative; left: -50%; border: dotted red 1px; background-color: white">
-        	{{ date.text }}
-        	</div>
-        	</div>
-        	<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}" style="border: dotted blue 1px">
-        	<div ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; word-wrap: break-word; text-align: center; background-color: white">
-        	<a href="#/events/{{event.EvntID}}" style="text-decoration : none; color : #000000;">{{ event.text }} </a>
-        	</div>
+  <ion-content id="timelinebox" padding="False" class="has-header" scroll="false">
+  	<ion-scroll zooming="false" direction="x" scrollbar-x="false"  scrollbar-y="false" has-bouncing="false">
+
+  		<canvas id="timeline">
+          	</canvas>
+          	<div id="timelinewindow" style="overflow: hidden; position: absolute; left: 0px; top: 0px">
+        		<div ng-repeat="date in dates" ng-style="{top: date.yloc, left: date.xloc, position: date.position}">
+        			<div style="position: relative; left: -50%; border: dotted red 1px; background-color: white">
+        				{{ date.text }}
+        			</div>
+        		</div>
+        		<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}">
+        			<div style="float:left">
+        				<div ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; text-align: center; background-color: white">
+        					<a href="#/events/{{event.EvntID}}" style=" text-decoration : none; color : #000000;">{{ event.text }} </a>
+        				</div>
+        			</div>
+        		</div>
         	</div>
       	</ion-scroll>
   <!--div style="border: 2px solid green;" id="testnum">
