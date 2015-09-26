@@ -2,8 +2,8 @@
 	<!-- check www/templates/home.html for a explanation on .html templates -->
   <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
 		<h1 class="headertitle"><b>About</b></h1>
-		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()"></img>
-		<img src="img/centlogont.png" id="centlogo"></img>
+		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()">
+		<img src="img/centlogont.png" id="centlogo">
 	</ion-header-bar>
   <ion-content padding="true">
   
@@ -37,6 +37,7 @@
 	<div class="card">
 		<div class="item item-text-wrap">
 			<h1>Rolls-Royce<h1>
+			<img src="img/logotb.png" class="ataglance">
 			<p><strong>The Company Today</strong><br>Today, Rolls-Royce is a trusted leader for land, sea and air power solutions worldwide.  Comprised of 
 			Defense and Civil aerospace, and a Land & Sea Division, Rolls-Royce is one of the foremost engineering 
 			companies in the world.  More Rolls-Royce engines are built in Indianapolis than anywhere else in the world.</p><br> 
@@ -80,77 +81,8 @@
 		</div>
 	</div>
    
- <!-- this was added to comment the old code.
- 
-	<div class="card">
-		<div class="item item-text-wrap">
-			<h1>What we do<img src="img/about/about1.png" class="whatwedo"></h1>
-			<p>Rolls-Royce designs, develops, manufactures and services integrated power systems for
-			use in the air, on the land and at sea.</p><br><p>We are on of the worlds leading producers
-			of aero engines for large civil aircraft and corporate jets. We are the second largest
-			provider of defense aero engines and services in the wrold.</p><br><p>For land and sea markets,
-			reciprocating engines and systems from Rolls-Royce are in marine, distributed energy, oil & 
-			gas, rail and off-highway vehicle applications. In nuclear, we have a strong instrumentation,
-			product and service capability in both civil power and submarine propulsion</p>
-		</div>
-    </div>
-	
-	<div class="card">
-		<div class="item item-text-wrap">
-			<!-- This is the ionic card thata contains the show/hide button for the RR infographic
-				the ng-show and ng-hide and ng-click functions are angular functions used to tell the
-				app when to show and hide each element. The class of showinfo is there so that in the 
-				www/css/style.css file we can set specific styling with a button.showinfo call.  -->
-<!-- this was added to comment the old code.
-			<h1>At a glance 2015</h1>
-			<!-- In this case "show" is a state that can be either true or false. 
-			The ng-show="show" and ng-hide="show" lines are checking the state of "show" and applying themselves accordingly. 
-			The ng-click function is telling the button that when clicked it should change the state of "show" to either true or false.-->
-<!-- this was added to comment the old code.			
-			<button class="button icon-right ion-chevron-up button-full button-light showinfo" ng-show="show" ng-click="show=false">Hide</button>
-			<button class="button icon-right ion-chevron-down button-full button-light showinfo" ng-hide="show" ng-click="show=true">Show</button>
-			<img src="img/about/ataglance.png" class="ataglance" ng-show="show">
-			
-		</div>
-	</div>
-	
-	<div class="card">
-		<div class="item item-text-wrap">
-			<h1>Strategy</h1>
-			<h2>Vision</h2>
-			<p>	<strong>Better</strong> - We will succeeed only by continually raising standards. We
-			constantly improve quality, performance and cost. We are inquisitive, energetic and 
-			'better' every day. Even when we may be the best, we must continue to get better.</p><br>
-			<p>	<strong>Power</strong> - We are a power systems company that develops, sells and 
-			services mission critical products. Our customers demand innovation that improves 
-			performance and reduces the environmental impact of our power systems</p><br><p>	<strong>
-			Changing World</strong> - The world around us is changing rapidly and the pace of change
-			is accelerating. New markets are emerging, shifting the balacnce of economic power.
-			Regulation is, rightly, driving the requirement for cleaner power and setting new 
-			standards for buisness conduct. Our continuous imvestment in technology, our ingenuity
-			and our commitment to excellence allows us to seize the opportunities that change 
-			presents and to face the future with confidence.</p>
-			<h2>Values</h2>
-			
-			<h2>Strategy</h2>
-		</div>
-	</div>
-	
-	<div class="card">
-		<div class="item item-text-wrap">
+ <!-- 
 					<div ui-sref="strategy"><h1>Strategy<h1></div>
-		</div>
-	</div>
-	
-	<div class="card" ng-repeat="recordedevent in recordedevents">
-		<ion-list>
-			<ion-item class="item item-text-wrap">  <!-- this comes from what is after $Scope. in the aboutController -->
-<!-- this was added to comment the old code.				
-				<h1>{{recordedevent.EvntID}}</h1>
-				<p>{{recordedevent.EvntDsptn}} </p>
-			</ion-item>
-		</ion-list>
-	</div>
-this was added to comment the old code. -->	
+-->
   </ion-content>
 </ion-view>

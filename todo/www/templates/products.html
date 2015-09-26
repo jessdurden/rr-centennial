@@ -2,13 +2,13 @@
 	<!-- check www/templates/home.html for a explanation on .html templates -->
   <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
   		<h1 class="headertitle"><b>Product</b></h1>
-		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()"></img>
-		<img src="img/centlogont.png" id="centlogo"></img>
+		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()">
+		<img src="img/centlogont.png" id="centlogo">
 	</ion-header-bar>
   <ion-content>
 	<div class="item item-text-wrap" ng-repeat="product in products">
 		<h1>{{product.ProductName}}</h1>
-		<img src="{{product.ProductImgLnk}}" class="ataglance"></img>
+		<img src="{{product.ProductImgLnk}}" class="ataglance">
 		<h2>About the {{product.ProductName}}</h2>
 		<p>{{product.ProductDsptn}}</p>
 		<br>

@@ -58,7 +58,7 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 		controller: 'timelineController'
 	})
 	.state('events', {
-		url: '/events/:eventID',
+		url: '/events/:eveID',
 		templateUrl: 'templates/events.html',
 		controller: 'eventsController'
 	})	
@@ -137,7 +137,7 @@ ionicApp.controller("aboutController", function($scope, $ionicPlatform, $cordova
 	$scope.recordedevents = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT EventID, EvntDsptn FROM RecordedEvents";
+		var query = "SELECT EvntID, EvntDsptn FROM RecordedEvents";
 	
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
@@ -212,8 +212,15 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
 				
-		/*Basically what I have here is an array of the whole timeline. I have divided it up into 100 by 6 for both the top and bottom. Code futher down looks at that array when placing a box and checks the rows closest to the timeline first. If those slots are filled it moves up and checks again. it does this till it finds a hole big enough for the event. If the title is longer than 42 char it assumes it will be wrapping. (It's a poor assumption but I don't know of a good way to find out the width of an event dynamically. You might have an idea if so let me know.) If it thinks it will be wrapping it will asign filled space to two lines instead of the typical one line. If you have any questions text or call.
-		*/
+				/*Basically what I have here is an array of the whole timeline. I have divided it up 
+				into 100 by 6 for both the top and bottom. Code futher down looks at that array when placing a 
+				box and checks the rows closest to the timeline first. If those slots are filled it moves up 
+				and checks again. it does this till it finds a hole big enough for the event. If the title is 
+				longer than 42 char it assumes it will be wrapping. (It's a poor assumption but I don't know of 
+				a good way to find out the width of an event dynamically. You might have an idea if so let me 
+				know.) If it thinks it will be wrapping it will asign filled space to two lines instead of the 
+				typical one line. If you have any questions text or call.
+				*/
 				var FilledDate = Array(2);
 				FilledDate[0] = Array(6);
 				FilledDate[0][0] = Array(100);
@@ -249,108 +256,109 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 				var count = 0;
 				
 				
-			$scope.recordedeventstl = [];		
-			var eventsArray = [];
+				/*  $scope.recordedeventstl = [];		*/
+				var eventsArray = [];
 			
-			var upcount = 0;
+				var upcount = 0;
 			
-			for(var i = 0; i < res.rows.length; i++) {
+				for(var i = 0; i < res.rows.length; i++) {
 
     				var year = res.rows.item(i).StampedYear;
     				var title = res.rows.item(i).EvntTitle;
-    				var EventID = res.rows.item(i).EventID;
+    				var EventID = res.rows.item(i).EvntID;
 
- 				var Locator = year - 1915;
- 				var needCheck = blockVal;
- 				var offsetConst = 1;
- 				var foundHome = false;
- 				for(var m = 0; m <= 5; m++) {
- 					if(foundHome == false){
- 						var clearSpace = true;
- 						for(var k = 0; k <= needCheck; k++) {
- 							var checkVal = k + Locator - blockVal;
- 							if(k >= 0){				
- 								if(FilledDate[topOrBottom][m][checkVal] != 0 ){
-									var clearSpace = false;
- 								}
- 							}
- 						}
- 						if (clearSpace){
- 							foundHome = true;
- 							offsetConst = offsetConst + m;
- 							for(var k = 0; k <= needCheck; k++) {
- 								var checkVal = k + Locator - blockVal;	
- 								if(k >= 0){	
- 									FilledDate[topOrBottom][m][checkVal] = 1;
- 									if(topOrBottom == 0){		
- 										if(title.length >= 42){
- 											var secondm = m + 1;
- 											offsetConst = 1 + secondm;
- 											if(secondm < 6){
- 											FilledDate[topOrBottom][secondm][checkVal] = 1;
- 											}
- 										}
- 									} else {
- 										if(title.length >= 42){
- 											var secondm = m + 1;
- 											if(secondm < 6){
- 											FilledDate[topOrBottom][secondm][checkVal] = 1;
- 											}
- 										}
- 									}	
- 								}
- 							}
- 						}
- 					}
- 				}
- 				var endOffSet = -50;
- 				if(Locator <= 2){
- 					endOffSet = (Locator/2)*(-45) - 5;
- 				} else if(Locator >= 98){
- 					endOffSet = ((Locator - 98)/2)*(-50) - 45;
- 				}
+					var Locator = year - 1915;
+					var needCheck = blockVal;
+					var offsetConst = 1;
+					var foundHome = false;
+					for(var m = 0; m <= 5; m++) {
+						if(foundHome == false){
+							var clearSpace = true;
+							for(var k = 0; k <= needCheck; k++) {
+								var checkVal = k + Locator - blockVal;
+								if(k >= 0){			
+									if(FilledDate[topOrBottom][m][checkVal] != 0 ){
+										var clearSpace = false;
+									}
+								}
+							}
+							if (clearSpace){
+								foundHome = true;
+								offsetConst = offsetConst + m;
+								for(var k = 0; k <= needCheck; k++) {
+									var checkVal = k + Locator - blockVal;	
+									if(k >= 0){
+										FilledDate[topOrBottom][m][checkVal] = 1;
+										if(topOrBottom == 0){		
+											if(title.length >= 42){
+												var secondm = m + 1;
+												offsetConst = 1 + secondm;
+												if(secondm < 6){
+													FilledDate[topOrBottom][secondm][checkVal] = 1;
+												}
+											}
+										} else {
+											if(title.length >= 42){
+												var secondm = m + 1;
+												if(secondm < 6){
+												FilledDate[topOrBottom][secondm][checkVal] = 1;
+												}
+											}
+										}	
+									}
+								}
+							}
+						}
+					}
+					var endOffSet = -50;
+					if(Locator <= 2){
+						endOffSet = (Locator/2)*(-45) - 5;
+					} else if(Locator >= 98){
+						endOffSet = ((Locator - 98)/2)*(-50) - 45;
+					}
  					endOffSet = endOffSet.toString();
  					endOffSet = endOffSet + '%';
- 				var LocatorVal = slopeDate*Locator + offsetDate;
- 				var LocatorString = LocatorVal.toString();
- 				LocatorString = LocatorString + 'px';
- 				if(topOrBottom == 0){
+					var LocatorVal = slopeDate*Locator + offsetDate;
+					var LocatorString = LocatorVal.toString();
+					LocatorString = LocatorString + 'px';
+					if(topOrBottom == 0){
     					var boxValY = (BaseHeight/2)-offsetConst*(BaseHeight/12)+5;
     					ctx.beginPath();
- 					ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
- 					ctx.lineTo(LocatorVal,boxValY+5);
- 					ctx.stroke();
+						ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
+						ctx.lineTo(LocatorVal,boxValY+5);
+						ctx.stroke();
     					topOrBottom = 1;
     					
     				} else{
     					var boxValY = (BaseHeight/2)+offsetConst*(BaseHeight/12)-(BaseHeight/12)+40;
     					ctx.beginPath();
- 					ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
- 					ctx.lineTo(LocatorVal,boxValY+5);
- 					ctx.stroke();
+						ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
+						ctx.lineTo(LocatorVal,boxValY+5);
+						ctx.stroke();
     					topOrBottom = 0;
-  				}
+					}
 				
-				var boxStringY = boxValY.toString();
-				boxStringY = boxStringY+'px';
-				var widthVal = BaseWidth*0.9;
-				var widthString = widthVal.toString();
-				widthString = widthString+'px';
-				var heightVal = BaseWidth*0.45;
-				var heightString = heightVal.toString();
-				heightString = heightString+'px';
+					var boxStringY = boxValY.toString();
+					boxStringY = boxStringY+'px';
+					var widthVal = BaseWidth*0.9;
+					var widthString = widthVal.toString();
+					widthString = widthString+'px';
+					var heightVal = BaseWidth*0.45;
+					var heightString = heightVal.toString();
+					heightString = heightString+'px';
 				
-				var printcount = i.toString();
+					var printcount = i.toString();
 				
-    					eventsArray[i] = {
-      					text: title,
-      					xloc: LocatorString,
-      					yloc: boxStringY,
-      					boxWidth: widthString,
-      					position: 'absolute',
-      					EvntID: EventID,
-      					endOffset: endOffSet
-    					};							
+					eventsArray[i] = {
+						EvntID: EventID,
+						text: title,
+						xloc: LocatorString,
+						yloc: boxStringY,
+						boxWidth: widthString,
+						position: 'absolute',
+      				
+						endOffset: endOffSet
+					};							
 				}
 				$scope.recordedeventstl = eventsArray;
 			}
@@ -364,12 +372,46 @@ ionicApp.controller("eventsController", function($scope, $ionicPlatform, $cordov
 	$scope.events = [];
 	
 	$ionicPlatform.ready(function() {
-		var query = "SELECT * FROM RecordedEvents where EventID = ?";
+		var query = "SELECT * FROM RecordedEvents,Timestamps where RecordedEvents.EvntID = Timestamps.TimestampID and RecordedEvents.EvntID = ?";
 	
-		$cordovaSQLite.execute(db, query, [$stateParams.eventID]).then(function(res) {
+		$cordovaSQLite.execute(db, query, [$stateParams.eveID]).then(function(res) {
 			if(res.rows.length > 0) {
 				for(var i = 0; i < res.rows.length; i++) {
-					$scope.events.push({EvntID: res.rows.item(i).EvntID, EvntTitle: res.rows.item(i).EvntTitle, EvntImgLnk: res.rows.item(i).EvntImgLnk, EvntDsptn: res.rows.item(i).EvntDsptn });
+				
+					var month = "month";
+					if(res.rows.item(i).StampedMonth == 1) {
+						month = "January"
+					} else if(res.rows.item(i).StampedMonth == 2) {
+						month = "February"
+					} else if(res.rows.item(i).StampedMonth == 3) {
+						month = "March"
+					} else if(res.rows.item(i).StampedMonth == 4) {
+						month = "April"
+					} else if(res.rows.item(i).StampedMonth == 5) {
+						month = "May"
+					} else if(res.rows.item(i).StampedMonth == 6) {
+						month = "June"
+					} else if(res.rows.item(i).StampedMonth == 7) {
+						month = "July"
+					} else if(res.rows.item(i).StampedMonth == 8) {
+						month = "August"
+					} else if(res.rows.item(i).StampedMonth == 9) {
+						month = "September"
+					} else if(res.rows.item(i).StampedMonth == 10) {
+						month = "October"
+					} else if(res.rows.item(i).StampedMonth == 11) {
+						month = "November"
+					} else if(res.rows.item(i).StampedMonth == 12) {
+						month = "December"
+					}
+					
+					var day = "day";
+					if(res.rows.item(i).StampedDay) {
+						day = res.rows.item(i).StampedDay + ",";
+					} else {
+						day = "";
+					}
+					$scope.events.push({EvntID: res.rows.item(i).EvntID, EvntTitle: res.rows.item(i).EvntTitle, EvntImgLnk: res.rows.item(i).EvntImgLnk, EvntDsptn: res.rows.item(i).EvntDsptn, StampedYear: res.rows.item(i).StampedYear, StampedMonth: month, StampedDay: day});
 				}
 			}
 		}, function(err) {

@@ -1,18 +1,16 @@
 <ion-view title="events">
 	<!-- check www/templates/home.html for a explanation on .html templates -->
   <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
-  		<h1 class="headertitle"><b>Timeline</b></h1>
-		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()"></img>
-		<img src="img/centlogont.png" id="centlogo"></img>
+  		<h1 class="headertitle"><b>Event</b></h1>
+		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()">
+		<img src="img/centlogont.png" id="centlogo">
 	</ion-header-bar>
   <ion-content>
 	<div class="item item-text-wrap" ng-repeat="event in events">
-		<h1>{{event.EvntTitle}}</h1>
-		<!--h1>{{event.StampedMonth}} {{event.StampedDay}} {{event.StampedYear}}</h1-->
-		<!--img src={{event.EvntImgLnk}} class="ataglance"></img-->
-		<h2>Description: </h2> <p>{{event.EvntDsptn}}</p>
-		<h2>Image:</h2> <p> {{event.EvntImgLnk}} </p>
-
+		<h1>{{event.StampedMonth}} {{event.StampedDay}} {{event.StampedYear}}</h1>
+		<h2>{{event.EvntTitle}}</h2>
+		<img src={{event.EvntImgLnk}} class="ataglance"></img>
+		<p>{{event.EvntDsptn}}</p>
     </div>
   </ion-content>
 </ion-view>

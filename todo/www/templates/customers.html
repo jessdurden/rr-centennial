@@ -2,14 +2,13 @@
 	<!-- check www/templates/home.html for a explanation on .html templates -->
   <ion-header-bar class="bar-positive"> <!-- check www/templates/home.html for a header explanation -->
   		<h1 class="headertitle"><b>Customer</b></h1>
-		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()"></img>
-		<img src="img/centlogont.png" id="centlogo"></img>
+		<img src="img/backbtn.png" class="backbutton" ng-click="$ionicGoBack()">
+		<img src="img/centlogont.png" id="centlogo">
 	</ion-header-bar>
   <ion-content padding="true">
 	<div class="item item-text-wrap" ng-repeat="customer in customers">
-		<h1>{{customer.CustomerName}}</h1>
-		<img src={{customer.CustomerImgLnk}} class="ataglance"></img>
-		<h2>About {{customer.CustomerName}}</h2>
+		<h1 class="custtxtsize">{{customer.CustomerName}}</h1>
+		<h2>About:</h2>
 		<p>{{customer.CustomerDsptn}}</p>
     </div>
   </ion-content>
