@@ -14,15 +14,6 @@ element that has a class="showinfo" and apply the following css to that element
 */
 
 .homebg.scroll-content {
-
-/* code for a adding background image to a page with <ion-content class="logobg">
-
-	background: url('../img/centlogont.png') no-repeat;
-	background-position: center center;
-	background-size: contain;  
-	padding: 30px 10%;
-*/
-	
 	background-color: #A7A9AC; /* background color for the whole app*/
 }
 
@@ -32,18 +23,6 @@ element that has a class="showinfo" and apply the following css to that element
 	font-weight: bold;
 	background: linear-gradient(#EDEDEE, #A7A9AC);
 }
-
-
-/* Didn't work I was trying to fix ion-centent from being too long for my screen.
-.spacer{
-  height:0px;
-  background: red;
-}
-.platform-ios . spacer{
-  height:50px
-  background: red;
-}*/
-
 
 
 button.showinfo {
@@ -57,12 +36,12 @@ button.showinfo {
 }
 
 .headertitle {
-	font-size: 2em;
 	font-weight: bold;
 	color: #FFF;
 	position: absolute;
-	top: 15px;
-	text-indent: 50px;
+	top: 17px;
+	text-indent: 37px;
+	font-size: 1.7em;
 }
 
 .item h1 {
@@ -75,15 +54,10 @@ button.showinfo {
 	color: #004990;
 }
 
-h1.custtxtsize {
-	font-size: 2.2em;
+h1.titletxtsize {
+	font-size: 7.5vw;
 }
 
-img.whatwedo {
-	float: right;
-	width: 100%; 
-	max-width: 58%; /* sets the maxwidth such that it fits on the same line as the title (needs some tweaking to work for smaller screens as well) */
-}
 img.ataglance {
 	width: 100%;
 	padding: 2.5%;
@@ -120,7 +94,6 @@ div.tlitem {
 	border: solid black 1px;
 	text-align: center;
 	background-color: white;
-	/*float: left;*/
 }
 
 /*
@@ -132,19 +105,21 @@ height of logos should be 11 less than value stored in "$bar-height"
 */
 /* Rolls Royce logo located on the left of the header*/
 #rrlogo {
-	position:  absolute;
-	left:      7px;
-	width:     232px;  /*with width of 64 width for logo with words is 274*/
-	height:    54px;
-	float: 	   left;
+	position: 	absolute;
+	left:      	7px;
+	max-width:  232px;  /*with width of 64 width for logo with words is 274*/
+	max-height: 54px;
+	float: 	   	left;
+	width: 		63%;
 }
 
 /* Centenial Logo located on the right of the header*/
 #centlogo {
-	position:  fixed;
-	right:     10px;
-	width:     106px;
-	height:    54px;
+	position:  	fixed;
+	right:     	10px;
+	max-width:  106px;
+	max-height: 54px;
+	width: 		30%;
 }
 
 /* Centenial Logo located at the bottom of the homepage*/

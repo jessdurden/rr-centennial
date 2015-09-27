@@ -19,16 +19,6 @@ ionicApp.run(function($ionicPlatform, $cordovaSQLite) {
       StatusBar.styleDefault();
     }
 	
-	// Below replaced with home.controller on 23 July 2015
-	/*
-	window.plugins.sqlDB.copy("db.sqlite", function() {
-		db = $cordovaSQLite.openDB("db.sqlite");
-	}, function(error) {
-		console.error("There was an error copying the database: " + error);
-		db = $cordovaSQLite.openDB("db.sqlite");
-	});
-	*/
-	
   });
 })
 
@@ -477,7 +467,7 @@ ionicApp.controller("productsController", function($scope, $ionicPlatform, $cord
 				}
 				$scope.novariant.push({NoVariants: ""});
 			} else {
-				$scope.novariant.push({NoVariants: ": None"});
+				$scope.novariant.push({NoVariants: ": None Listed"});
 			}
 		}, function(err) {
 			console.eror(err);
