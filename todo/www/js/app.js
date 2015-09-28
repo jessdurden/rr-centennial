@@ -354,10 +354,12 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
     				
     				//Exceptions - If a title is too long shorten it here. (Full title is still displayed in event page)
     				if (title == "Allison GMA 3007 selected to power Cessna Citation X"){title = "AE3007 to power Citation X"};
+    				if (title == "AE 3007 powered Embraer EMB-145 makes 1st flight"){title = "EMB-145 1st flight"};
     				if (title == "Allison GMA 3007 selected to power EMB-145"){title = "AE3007 to power EMB-145"};
     				if (title == "Allison GMA 2100 selected to power Saab 2000"){title = "AE2100 to power Saab 2000"};
-    				if (title == "Allison GMA 2100 powers Saab 2000 1st flight"){title = "Saab 2000's 1st flight"};
-    				if (title == "CTS800-powered A129 attack helicopter makes first flight"){title = "A129's 1st flight"};
+    				if (title == "Allison GMA 2100 powers Saab 2000 1st flight"){title = "Saab 2000 1st flight"};
+    				if (title == "CTS800-powered A129 attack helicopter makes first flight"){title = "A129 1st flight"};
+    				if (title == "First flight of Allison AE 2100D3 engined C-130J"){title = "C-130J 1st flight"};
     				if (title == "Rolls-Royce/Lockheed Martin/ Pratt & Whitney wins contract for LiftFan - Wins Collier Trophy"){title = "Rolls-Royce wins contract for LiftFan - Wins Collier Trophy"};
 				if (title == "Four Allison Propellant Tanks Used on Apollo 7"){title = "Apollo 7"};
 				if (title == "Allison Celebrates 50th Anniversary"){title = "50th Anniversary"};
