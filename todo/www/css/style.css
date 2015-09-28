@@ -128,20 +128,3 @@ height of logos should be 11 less than value stored in "$bar-height"
 	padding: 5px 10%;
 	width: 100%;
 }
-
-/* Size the timeline viewport*/
-#timelinewindow {
-	/*width: 500px;
-	height: 500px;
-	border-style: solid;
-	border-color: red;
-    	border-width: 2px;*/
-}
-
-/* Size the timeline*/
-#timeline {
-	/*width 5050px;
-	height 100%;*/
-	/*width=5050px;
-	height=500px;*/
-}

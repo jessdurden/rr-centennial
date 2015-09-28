@@ -10,48 +10,21 @@
 
   		<canvas id="timeline">
           	</canvas>
-			<!--
-          	<div id="timelinewindow" style="overflow: hidden; position: absolute; left: 0px; top: 0px">
+			<div id="timelinewindow" style="overflow: hidden; position: absolute; left: 0px; top: 0px">
         		<div ng-repeat="date in dates" ng-style="{top: date.yloc, left: date.xloc, position: date.position}">
         			<div style="position: relative; left: -50%; background-color: white">
         				{{ date.text }}
         			</div>
         		</div>
         		<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}">
-        			<div syle="float:left">
-						<div ng-style="{left: event.endOffset}" class="tlitem">
-							<a href="#/events/{{event.EvntID}}" style=" text-decoration : none; color : #000000;">{{ event.text }}</a>							
-						</div>
-					</div>
-        		</div>
-        	</div>
-			-->
-			
-			
-			<div id="timelinewindow" style="overflow: hidden; position: absolute; left: 0px; top: 0px">
-        		<div ng-repeat="date in dates" ng-style="{top: date.yloc, left: date.xloc, position: date.position}">
-        			<div style="position: relative; left: -50%; border: dotted red 1px; background-color: white">
-        				{{ date.text }}
-        			</div>
-        		</div>
-        		<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}">
         			<div style="float:left">
-        				<div  id="{{event.id}}" ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; text-align: center; background-color: white" on-finish-render="position()">
-        					<a href="#/events/{{event.EvntID}}" style=" text-decoration : none; color : #000000;">{{ event.text }} </a>
+        				<div  id="{{event.id}}" ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: solid #004990 2px; text-align: center; background-color: white; border-radius: 5px" on-finish-render="position()">
+        					<a href="#/events/{{event.EvntID}}" style="margin: 3px; text-decoration : none; color : #000000;">{{ event.text }} </a>
         				</div>
         			</div>
         		</div>
         	</div>
-			
-			
-			
       	</ion-scroll>
-  <!--div style="border: 2px solid green;" id="testnum">
-        	Inside Ion-content
-        	</div-->
-        	<!--div-->
-		<!--h2>A really fancy timeline will go here</h2-->
-    <!--/div-->
   </ion-content>
   <div class="spacer"></div>
 </ion-view>

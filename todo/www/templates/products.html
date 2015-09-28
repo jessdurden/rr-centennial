@@ -15,7 +15,7 @@
 		<h2>{{product.ProductName}} Specs</h2>
 		<p class="speclist" ng-repeat="spec in productspeclist">{{spec.ProductSpec}}<br></p>
 		
-		<h2 ng-repeat="novar in novariant">{{product.ProductName}} Varians{{novar.NoVariants}}</h2>
+		<h2 ng-repeat="novar in novariant">{{product.ProductName}} Variants{{novar.NoVariants}}</h2>
 		<ion-item class="item item-text-wrap" ng-repeat="variant in variantlist" href="#/variants/{{variant.ProdVarID}}">  <!-- this comes from what is after $Scope. in the productController -->
 			<h2>{{variant.ProdVarName}}</h2>
 		</ion-item>

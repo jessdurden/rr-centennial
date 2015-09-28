@@ -98,9 +98,9 @@ ionicApp.config(function($stateProvider, $urlRouterProvider) {
 		templateUrl: 'templates/customers.html',
 		controller: 'customerController'
 	})
-	.state('strategy', {
-		url: '/strategy',
-		templateUrl: 'templates/strategy/strategy.html'
+	.state('thanks', {
+		url: '/thanks',
+		templateUrl: 'templates/thanks.html'
 	});
 	
 	// if none of the above states are mateched, use this as the 
@@ -628,25 +628,3 @@ ionicApp.controller("customerController", function($scope, $ionicPlatform, $cord
 		});
 	});
 });
-
-
-/* made obsoltete 23 July 2015
-
-ionicApp.controller("ExController", function($scope, $cordovaSQLite) {
-	
-	$scope.selectAll = function() {
-		var query = "SELECT EvntID, EvntDsptn FROM RecordedEvents";
-		$cordovaSQLite.execute(db, query, []).then(function(res) {
-			if(res.rows.length > 0) {
-				for(var i = 0; i < res.rows.length; i++) {
-					console.log("SELECTED -> " + res.rows.item(i).EvntID + " " + res.rows.item(i).EvntDsptn);
-				}
-			} else {
-				console.log("No results found");
-			}
-		}, function(err) {
-			console.error(err);
-		});
-	}
-});
-*/
