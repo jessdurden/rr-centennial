@@ -36,7 +36,7 @@
         		</div>
         		<div  ng-repeat="event in recordedeventstl" ng-style="{top: event.yloc, left: event.xloc, width: event.boxWidth, position: event.position}">
         			<div style="float:left">
-        				<div ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; text-align: center; background-color: white">
+        				<div  id="{{event.id}}" ng-style="{left: event.endOffset}" style="position: relative; top: -50%; border: dotted red 1px; text-align: center; background-color: white" on-finish-render="position()">
         					<a href="#/events/{{event.EvntID}}" style=" text-decoration : none; color : #000000;">{{ event.text }} </a>
         				</div>
         			</div>

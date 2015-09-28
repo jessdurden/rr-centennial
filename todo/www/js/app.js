@@ -4,7 +4,18 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 var ionicApp = angular.module('starter', ['ionic', 'ngCordova'])
+	.directive('onFinishRender', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                scope.$evalAsync(attr.onFinishRender);
+            }
+        }
+    }
+});
 var db = null;
+
 
 
 
@@ -144,9 +155,140 @@ ionicApp.controller("aboutController", function($scope, $ionicPlatform, $cordova
 
 ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cordovaSQLite) {
 	$scope.recordedeventstl = [];
-	
-	$ionicPlatform.ready(function() {
-		
+	//This whole function runs after the page loads for the first time. This allows me to pull the actual heights and widths of the event boxes. The code is messy and I had to redefine some stuff from below. Sorry
+	$scope.position = function() {
+		var timebox = document.getElementById("timelinebox");
+		var BaseHeight = timebox.clientHeight;
+		var BaseWidth = timebox.clientWidth;
+		var sizeAdjust = 10;
+		var BaseLength = BaseHeight*sizeAdjust+(BaseHeight/sizeAdjust);
+		/*Basically what I have here is an array of the whole timeline. I have divided it up 
+		into 100 by 6 for both the top and bottom. Code futher down looks at that array when placing a 
+		box and checks the rows closest to the timeline first. If those slots are filled it moves up 
+		and checks again. it does this till it finds a hole big enough for the event. If the title is 
+		longer than 29 char it assumes it will be wrapping. (It's a poor assumption but I don't know of 
+		a good way to find out the width of an event dynamically. You might have an idea if so let me 
+		know.) If it thinks it will be wrapping it will asign filled space to two lines instead of the 
+		typical one line. If you have any questions text or call.*/
+				var FilledDate = Array(2);
+				FilledDate[0] = Array(8);
+				FilledDate[0][0] = Array(100);
+				FilledDate[0][1] = Array(100);
+				FilledDate[0][2] = Array(100);
+				FilledDate[0][3] = Array(100);
+				FilledDate[0][4] = Array(100);
+				FilledDate[0][5] = Array(100);
+				FilledDate[0][6] = Array(100);
+				FilledDate[0][7] = Array(100);
+				FilledDate[1] = Array(8);
+				FilledDate[1][0] = Array(100);
+				FilledDate[1][1] = Array(100);
+				FilledDate[1][2] = Array(100);
+				FilledDate[1][3] = Array(100);
+				FilledDate[1][4] = Array(100);
+				FilledDate[1][5] = Array(100);
+				FilledDate[1][6] = Array(100);
+				FilledDate[1][7] = Array(100);
+				for(var i = 0; i < 100; i++) {
+					FilledDate[0][0][i] = 0;
+					FilledDate[0][1][i] = 0;
+					FilledDate[0][2][i] = 0;
+					FilledDate[0][3][i] = 0;
+					FilledDate[0][4][i] = 0;
+					FilledDate[0][5][i] = 0;
+					FilledDate[0][6][i] = 0;
+					FilledDate[0][7][i] = 0;
+					FilledDate[1][0][i] = 0;
+					FilledDate[1][1][i] = 0;
+					FilledDate[1][2][i] = 0;
+					FilledDate[1][3][i] = 0;
+					FilledDate[1][4][i] = 0;
+					FilledDate[1][5][i] = 0;
+					FilledDate[1][6][i] = 0;
+					FilledDate[1][7][i] = 0;
+				}
+				
+				var topOrBottom = 0;
+				var count = 0;
+				
+				$scope.recordedeventstl.forEach(function(obj) {
+					var callID = obj.id;
+					eventDoc = document.getElementById(callID);
+					var eventHeight = eventDoc.clientHeight;
+					var eventWidth = eventDoc.clientWidth;
+					var offsetDate = (BaseHeight/2/sizeAdjust);
+ 					var slopeDate = (BaseHeight/sizeAdjust);
+					var roundWidth = Math.ceil(eventWidth/slopeDate);
+					var yearPos = obj.locator;
+					var offsetDate = (BaseHeight/2/sizeAdjust);
+ 					var slopeDate = (BaseHeight/sizeAdjust);
+					var LocatorVal = slopeDate*yearPos + offsetDate;	
+					
+					var offsetConst = 1;
+					var foundHome = false;
+					for(var m = 0; m <= 5; m++) {
+						if(foundHome == false){
+							var clearSpace = true;
+							for(var k = 0; k <= roundWidth; k++) {
+								var checkVal = k + yearPos - roundWidth;
+								if(k >= 0){			
+									if(FilledDate[topOrBottom][m][checkVal] != 0 ){
+										clearSpace = false;
+									}
+								}
+							}
+							if (clearSpace){
+								foundHome = true;
+								offsetConst = offsetConst + m;
+								for(var k = 0; k <= roundWidth; k++) {
+									var checkVal = k + yearPos - roundWidth;	
+									if(k >= 0){
+										FilledDate[topOrBottom][m][checkVal] = 1;
+										if(topOrBottom == 0){		
+											if(eventHeight > 20){
+												var secondm = m + 1;
+												offsetConst = 1 + secondm;
+												if(secondm < 6){
+													FilledDate[topOrBottom][secondm][checkVal] = 1;
+												}
+											}
+										} else {
+											if(eventHeight > 20){
+												var secondm = m + 1;
+												if(secondm < 6){
+													FilledDate[topOrBottom][secondm][checkVal] = 1;
+												}
+											}
+										}	
+									}
+								}
+							}
+						}
+					}
+
+				if(topOrBottom == 0){
+					//Adjust this value to add spacing (the value multiplied to offsetConst)
+    					var boxValY = (BaseHeight/2)-offsetConst*30-5;
+    					ctx.beginPath();
+					ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
+					ctx.lineTo(LocatorVal,boxValY+5);
+					ctx.stroke();
+    					topOrBottom = 1;
+    					
+    				} else{
+    					//Adjust this value to add spacing (the value multiplied to offsetConst)
+    					var boxValY = (BaseHeight/2)+offsetConst*30+20;
+    					ctx.beginPath();
+					ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
+					ctx.lineTo(LocatorVal,boxValY+5);
+					ctx.stroke();
+    					topOrBottom = 0;
+				}
+				var boxStringY = boxValY.toString();
+				boxStringY = boxStringY+'px';
+				obj.yloc = boxStringY;
+			});
+   	}	
 		var timebox = document.getElementById("timelinebox");
 		/*document.getElementById("testnum").innerHTML = timebox.clientHeight;*/
 		var c=document.getElementById("timeline");
@@ -201,54 +343,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 		
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
-				
-				/*Basically what I have here is an array of the whole timeline. I have divided it up 
-				into 100 by 6 for both the top and bottom. Code futher down looks at that array when placing a 
-				box and checks the rows closest to the timeline first. If those slots are filled it moves up 
-				and checks again. it does this till it finds a hole big enough for the event. If the title is 
-				longer than 42 char it assumes it will be wrapping. (It's a poor assumption but I don't know of 
-				a good way to find out the width of an event dynamically. You might have an idea if so let me 
-				know.) If it thinks it will be wrapping it will asign filled space to two lines instead of the 
-				typical one line. If you have any questions text or call.
-				*/
-				var FilledDate = Array(2);
-				FilledDate[0] = Array(6);
-				FilledDate[0][0] = Array(100);
-				FilledDate[0][1] = Array(100);
-				FilledDate[0][2] = Array(100);
-				FilledDate[0][3] = Array(100);
-				FilledDate[0][4] = Array(100);
-				FilledDate[0][5] = Array(100);
-				FilledDate[1] = Array(6);
-				FilledDate[1][0] = Array(100);
-				FilledDate[1][1] = Array(100);
-				FilledDate[1][2] = Array(100);
-				FilledDate[1][3] = Array(100);
-				FilledDate[1][4] = Array(100);
-				FilledDate[1][5] = Array(100);
-				for(var i = 0; i < 100; i++) {
-					FilledDate[0][0][i] = 0;
-					FilledDate[0][1][i] = 0;
-					FilledDate[0][2][i] = 0;
-					FilledDate[0][3][i] = 0;
-					FilledDate[0][4][i] = 0;
-					FilledDate[0][5][i] = 0;
-					FilledDate[1][0][i] = 0;
-					FilledDate[1][1][i] = 0;
-					FilledDate[1][2][i] = 0;
-					FilledDate[1][3][i] = 0;
-					FilledDate[1][4][i] = 0;
-					FilledDate[1][5][i] = 0;
-				}
-				var blockVal = Math.ceil(BaseWidth*0.9/slopeDate);
-				//blockVal = blockVal.toString();
-				var topOrBottom = 0;
-				var count = 0;
-				
-				
-				/*  $scope.recordedeventstl = [];		*/
-				var eventsArray = [];
-			
+				var eventsArray = [];		
 				var upcount = 0;
 			
 				for(var i = 0; i < res.rows.length; i++) {
@@ -256,50 +351,20 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
     				var year = res.rows.item(i).StampedYear;
     				var title = res.rows.item(i).EvntTitle;
     				var EventID = res.rows.item(i).EvntID;
+    				
+    				//Exceptions - If a title is too long shorten it here. (Full title is still displayed in event page)
+    				if (title == "Allison GMA 3007 selected to power Cessna Citation X"){title = "AE3007 to power Citation X"};
+    				if (title == "Allison GMA 3007 selected to power EMB-145"){title = "AE3007 to power EMB-145"};
+    				if (title == "Allison GMA 2100 selected to power Saab 2000"){title = "AE2100 to power Saab 2000"};
+    				if (title == "Allison GMA 2100 powers Saab 2000 1st flight"){title = "Saab 2000's 1st flight"};
+    				if (title == "CTS800-powered A129 attack helicopter makes first flight"){title = "A129's 1st flight"};
+    				if (title == "Rolls-Royce/Lockheed Martin/ Pratt & Whitney wins contract for LiftFan - Wins Collier Trophy"){title = "Rolls-Royce wins contract for LiftFan - Wins Collier Trophy"};
+				if (title == "Four Allison Propellant Tanks Used on Apollo 7"){title = "Apollo 7"};
+				if (title == "Allison Celebrates 50th Anniversary"){title = "50th Anniversary"};
+				if (title == "Allison Selected to Work On VTOL Aircraft Engine"){title = "VTOL Engine"};
 
-					var Locator = year - 1915;
-					var needCheck = blockVal;
-					var offsetConst = 1;
-					var foundHome = false;
-					for(var m = 0; m <= 5; m++) {
-						if(foundHome == false){
-							var clearSpace = true;
-							for(var k = 0; k <= needCheck; k++) {
-								var checkVal = k + Locator - blockVal;
-								if(k >= 0){			
-									if(FilledDate[topOrBottom][m][checkVal] != 0 ){
-										var clearSpace = false;
-									}
-								}
-							}
-							if (clearSpace){
-								foundHome = true;
-								offsetConst = offsetConst + m;
-								for(var k = 0; k <= needCheck; k++) {
-									var checkVal = k + Locator - blockVal;	
-									if(k >= 0){
-										FilledDate[topOrBottom][m][checkVal] = 1;
-										if(topOrBottom == 0){		
-											if(title.length >= 42){
-												var secondm = m + 1;
-												offsetConst = 1 + secondm;
-												if(secondm < 6){
-													FilledDate[topOrBottom][secondm][checkVal] = 1;
-												}
-											}
-										} else {
-											if(title.length >= 42){
-												var secondm = m + 1;
-												if(secondm < 6){
-												FilledDate[topOrBottom][secondm][checkVal] = 1;
-												}
-											}
-										}	
-									}
-								}
-							}
-						}
-					}
+
+					var Locator = year - 1915;					
 					var endOffSet = -50;
 					if(Locator <= 2){
 						endOffSet = (Locator/2)*(-45) - 5;
@@ -311,23 +376,8 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 					var LocatorVal = slopeDate*Locator + offsetDate;
 					var LocatorString = LocatorVal.toString();
 					LocatorString = LocatorString + 'px';
-					if(topOrBottom == 0){
-    					var boxValY = (BaseHeight/2)-offsetConst*(BaseHeight/12)+5;
-    					ctx.beginPath();
-						ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
-						ctx.lineTo(LocatorVal,boxValY+5);
-						ctx.stroke();
-    					topOrBottom = 1;
-    					
-    				} else{
-    					var boxValY = (BaseHeight/2)+offsetConst*(BaseHeight/12)-(BaseHeight/12)+40;
-    					ctx.beginPath();
-						ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
-						ctx.lineTo(LocatorVal,boxValY+5);
-						ctx.stroke();
-    					topOrBottom = 0;
-					}
-				
+					
+					var boxValY = (BaseHeight/2);
 					var boxStringY = boxValY.toString();
 					boxStringY = boxStringY+'px';
 					var widthVal = BaseWidth*0.9;
@@ -336,18 +386,23 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 					var heightVal = BaseWidth*0.45;
 					var heightString = heightVal.toString();
 					heightString = heightString+'px';
+					
+					var ID = i;
+					var IDString = ID.toString();
+					IDString = 'event_' + IDString;
 				
 					var printcount = i.toString();
 				
 					eventsArray[i] = {
+						id: IDString,
 						EvntID: EventID,
 						text: title,
 						xloc: LocatorString,
 						yloc: boxStringY,
 						boxWidth: widthString,
-						position: 'absolute',
-      				
-						endOffset: endOffSet
+						position: 'absolute',   						
+						endOffset: endOffSet,
+						locator: Locator
 					};							
 				}
 				$scope.recordedeventstl = eventsArray;
@@ -355,7 +410,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 		}, function(err) {
 			console.error(err);
 		});		
-	});	
+
 });
 
 ionicApp.controller("eventsController", function($scope, $ionicPlatform, $cordovaSQLite, $stateParams) {
