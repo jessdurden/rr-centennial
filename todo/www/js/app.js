@@ -356,6 +356,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
     				if (title == "Allison Propellant Returns Apollo 13 Astronauts Safely"){title = "Apollo 13"};
     				if (title == "Allison Delivers 5,000th Engine to USAF"){title = "Allison Delivers 5,000th Engine"};
     				if (title == "Allison GMA 3007 selected to power Cessna Citation X"){title = "AE3007 to power Citation X"};
+    				if (title == "Lockheed/Alenia C-27J to use AE 2100 engines"){title = "AE2100 to power C-27J"};
     				if (title == "AE 3007 powered Embraer EMB-145 makes 1st flight"){title = "EMB-145 1st flight"};
     				if (title == "Allison GMA 3007 selected to power EMB-145"){title = "AE3007 to power EMB-145"};
     				if (title == "Allison GMA 2100 selected to power Saab 2000"){title = "AE2100 to power Saab 2000"};
