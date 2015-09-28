@@ -353,6 +353,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
     				var EventID = res.rows.item(i).EvntID;
     				
     				//Exceptions - If a title is too long shorten it here. (Full title is still displayed in event page)
+    				if (title == "Allison Propellant Returns Apollo 13 Astronauts Safely"){title = "Apollo 13"};
     				if (title == "Allison GMA 3007 selected to power Cessna Citation X"){title = "AE3007 to power Citation X"};
     				if (title == "AE 3007 powered Embraer EMB-145 makes 1st flight"){title = "EMB-145 1st flight"};
     				if (title == "Allison GMA 3007 selected to power EMB-145"){title = "AE3007 to power EMB-145"};
