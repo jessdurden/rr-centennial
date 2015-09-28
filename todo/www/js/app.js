@@ -173,14 +173,13 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 		var sizeAdjust = 10;
 		var BaseLength = BaseHeight*sizeAdjust+(BaseHeight/sizeAdjust);
 		/*Basically what I have here is an array of the whole timeline. I have divided it up 
-				into 100 by 6 for both the top and bottom. Code futher down looks at that array when placing a 
-				box and checks the rows closest to the timeline first. If those slots are filled it moves up 
-				and checks again. it does this till it finds a hole big enough for the event. If the title is 
-				longer than 29 char it assumes it will be wrapping. (It's a poor assumption but I don't know of 
-				a good way to find out the width of an event dynamically. You might have an idea if so let me 
-				know.) If it thinks it will be wrapping it will asign filled space to two lines instead of the 
-				typical one line. If you have any questions text or call.
-				*/
+		into 100 by 6 for both the top and bottom. Code futher down looks at that array when placing a 
+		box and checks the rows closest to the timeline first. If those slots are filled it moves up 
+		and checks again. it does this till it finds a hole big enough for the event. If the title is 
+		longer than 29 char it assumes it will be wrapping. (It's a poor assumption but I don't know of 
+		a good way to find out the width of an event dynamically. You might have an idea if so let me 
+		know.) If it thinks it will be wrapping it will asign filled space to two lines instead of the 
+		typical one line. If you have any questions text or call.*/
 				var FilledDate = Array(2);
 				FilledDate[0] = Array(8);
 				FilledDate[0][0] = Array(100);
@@ -281,36 +280,25 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 					//Adjust this value to add spacing (the value multiplied to offsetConst)
     					var boxValY = (BaseHeight/2)-offsetConst*30-5;
     					ctx.beginPath();
-						ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/10));
-						ctx.lineTo(LocatorVal,boxValY+5);
-						ctx.stroke();
+					ctx.moveTo(LocatorVal,(BaseHeight/2)-(BaseHeight/10/sizeAdjust));
+					ctx.lineTo(LocatorVal,boxValY+5);
+					ctx.stroke();
     					topOrBottom = 1;
     					
     				} else{
     					//Adjust this value to add spacing (the value multiplied to offsetConst)
     					var boxValY = (BaseHeight/2)+offsetConst*30+20;
     					ctx.beginPath();
-						ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/10));
-						ctx.lineTo(LocatorVal,boxValY+5);
-						ctx.stroke();
+					ctx.moveTo(LocatorVal,(BaseHeight/2)+(BaseHeight/10/sizeAdjust));
+					ctx.lineTo(LocatorVal,boxValY+5);
+					ctx.stroke();
     					topOrBottom = 0;
-					}
-					var boxStringY = boxValY.toString();
-					boxStringY = boxStringY+'px';
-					//var roundString = roundWidth.toString();
-					obj.yloc = boxStringY;
-					//obj.text = roundString;
-					});
-		/*updateData(
- 			{name:"a",value:"22"}, 
- 			{name:"b",value:"2"}, 
- 			{name:"c",value:"3"}, 
- 			{name:"a",value:"1"} 
-		);*/
-   	}
-	
-	/*$ionicPlatform.ready(function() {	});*/
-		
+				}
+				var boxStringY = boxValY.toString();
+				boxStringY = boxStringY+'px';
+				obj.yloc = boxStringY;
+			});
+   	}	
 		var timebox = document.getElementById("timelinebox");
 		/*document.getElementById("testnum").innerHTML = timebox.clientHeight;*/
 		var c=document.getElementById("timeline");
@@ -365,15 +353,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 		
 		$cordovaSQLite.execute(db, query, []).then(function(res) {
 			if(res.rows.length > 0) {
-				
-				
-				//blockVal = blockVal.toString();
-				
-				
-				
-				/*  $scope.recordedeventstl = [];		*/
-				var eventsArray = [];
-			
+				var eventsArray = [];		
 				var upcount = 0;
 			
 				for(var i = 0; i < res.rows.length; i++) {
@@ -394,9 +374,7 @@ ionicApp.controller("timelineController", function($scope, $ionicPlatform, $cord
 				if (title == "Allison Selected to Work On VTOL Aircraft Engine"){title = "VTOL Engine"};
 
 
-					var Locator = year - 1915;
-					//var needCheck = blockVal;
-					
+					var Locator = year - 1915;					
 					var endOffSet = -50;
 					if(Locator <= 2){
 						endOffSet = (Locator/2)*(-45) - 5;
