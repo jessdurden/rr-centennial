@@ -1,5 +1,5 @@
-<?xml version="1.1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.CentennialAppTeam.RRCentennial" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<?xml version="1.2.0" encoding="UTF-8" standalone="yes"?>
+<widget id="com.CentennialAppTeam.RRCentennial" version="1.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>RR Centennial</name>
   <description>&#xD;
         An app celebrating 100 years of Aerospace and Innovation in Indianapolis Indiana.&#xD;
